@@ -21,11 +21,9 @@ This will basically empower presenters to use their hands and their body to inte
 ## How it works
 _PlessPP_ is for presenters and helps them delivering better presentations on stage. It will add nothing to your visuals, it will just free your presentations abilities.
 
-### 1. Wear your Band
-Put on your band on your wrist!
-
-### 2. Start your presentation
-On your PC, start PowerPoint and enter presentation mode!
-
-### 3. Go on stage
-And make them wow!
+1. **Pfrepare your presentation:** Make your presentation using PowerPoint.
+2. **Wear your Band:** Put on your band on your wrist!
+3. **Set up everything:** On your PC, start PowerPoint and enter presentation mode! Also remember to check the projector.
+4. **Go on stage:** And make them wow!
+ 
+![Concept](/images/plesspp3.png "The concept behind PlessPP")
