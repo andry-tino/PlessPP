@@ -27,3 +27,5 @@ _PlessPP_ is for presenters and helps them delivering better presentations on st
 4. **Go on stage:** And make them wow!
  
 ![Concept](/images/plesspp3.png "The concept behind PlessPP")
+
+Without the bloody controller in your hand, you are free to deliver your presentation using both hands. Body language is important, sacrificing one hand is no more necessary!
