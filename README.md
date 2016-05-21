@@ -1,7 +1,9 @@
 # PlessPP
 Presenterless PowerPoint - Change slides while presenting with natural gestures of your hands.
 
-The project is part of the Microsoft Hackathon 2016 initiative.
+**Hackathon:** The project is part of the Microsoft Hackathon 2016 initiative.
+
+**Kanban:** The project has a public [Kanban board](https://waffle.io/andry-tino/PlessPP) available.
 
 ## The idea
 Have you ever given a presentation? Well, we guess you have! It's nice to give a presentation right? You prepare your slides, you rehearse, and then the day come and you get on stage: your PC is plugged, hopefully the projector won't go berserk, and there you go! Now you are speaking, talking and performing on stage but something is wrong... Yeah, **on your hand you have this remote controller** that you need to hold all the time in order to change slides!
