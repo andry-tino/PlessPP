@@ -1,4 +1,4 @@
-# PlessPP
+# PlessPP [![Stories in Ready](https://badge.waffle.io/andry-tino/PlessPP.svg?label=ready&title=Ready)](http://waffle.io/andry-tino/PlessPP)
 Presenterless PowerPoint - Change slides while presenting with natural gestures of your hands.
 
 **Hackathon:** The project is part of the Microsoft Hackathon 2016 initiative.
