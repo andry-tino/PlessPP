@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Created:cbbc9d22-5cf7-4e4c-8ee9-42a772aae58a-->
+<OfficeApp xsi:type="ContentApp" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/office/appforoffice/1.0">
+  <Id>eadaa0dd-558b-499a-9935-fb7f32fa8dac</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>Andrea Tino</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue="PPTExample" />
+  <Description DefaultValue="PPTExample" />
+  <Capabilities>
+    <Capability Name="Workbook" />
+  </Capabilities>
+  <DefaultSettings>
+    <!--To publish to the Add-in Store, enter the URL that this app will be hosted-->
+    <SourceLocation DefaultValue="~appWebUrl/App/Home/Home.html" />
+    <RequestedWidth>400</RequestedWidth>
+    <RequestedHeight>400</RequestedHeight>
+  </DefaultSettings>
+  <Permissions>ReadWriteDocument</Permissions>
+</OfficeApp>
