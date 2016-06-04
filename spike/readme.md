@@ -3,7 +3,7 @@ Repository area for spiking activities
 ## About
 This document describes general guidelines to manage code using in spiking activities.
 
-## How to crreate spike projects
+## How to create spike projects
 When spiking on something and in need to create projects or have code, create a folder in this directory (`/spike`) and give it a name basing on the activity you are spiking on. 
 
 For example, if you're about to spike on how to create a web service in C#, you can create a folder called `webServices` and put everything in there about your spiking task on that topic.
