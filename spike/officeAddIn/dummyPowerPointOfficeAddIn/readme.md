@@ -8,3 +8,8 @@ What we want to try is:
 - Contacting the add-in from outside.
 - Issuing a slide change command from outside.
 - Issuing a slide change command from outside while in presentation mode.
+
+## API reference
+Office add-in API reference:
+- [Navigate to a particular slide in the presentation](https://github.com/OfficeDev/office-js-docs/blob/master/docs/powerpoint/powerpoint-add-ins.md#navigate-to-a-particular-slide-in-the-presentation).
+- [Document.goToByIdAsync](https://github.com/OfficeDev/office-js-docs/blob/master/reference/shared/document.gotobyidasync.md).

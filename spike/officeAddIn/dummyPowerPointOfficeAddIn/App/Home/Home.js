@@ -9,24 +9,22 @@
         $(document).ready(function () {
             app.initialize();
 
-            $('#get-data-from-selection').click(getDataFromSelection);
+            $('#nextSlide').click(nextSlide);
         });
     };
 
-    // Reads data from current document selection and displays a notification
-    function getDataFromSelection() {
-        if (Office.context.document.getSelectedDataAsync) {
-            Office.context.document.getSelectedDataAsync(Office.CoercionType.Text,
-				function (result) {
-				    if (result.status === Office.AsyncResultStatus.Succeeded) {
-				        app.showNotification('The selected text is:', '"' + result.value + '"');
-				    } else {
-				        app.showNotification('Error:', result.error.message);
-				    }
-				}
-			);
-        } else {
-            app.showNotification('Error:', 'Reading selection data is not supported by this host application.');
-        }
+    function gotoSlide() {
+        var first = Office.Index.First;
+        var last = Office.Index.Last;
+        var next = Office.Index.Next;
+        var prev = Office.Index.Previous;
+
+        Office.context.document.goToByIdAsync(Next, Office.GoToType.Index, function(data) {
+            if (data.status == "failed") {
+                app.showNotification("Error: " + data.error.message);
+            } else {
+                app.showNotification("Next slide successful");
+            }
+        });
     }
 })();
