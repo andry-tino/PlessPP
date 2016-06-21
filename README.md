@@ -31,3 +31,6 @@ _PlessPP_ is for presenters and helps them delivering better presentations on st
 ![Concept](/images/plesspp3.png "The concept behind PlessPP")
 
 Without the bloody controller in your hand, you are free to deliver your presentation using both hands. Body language is important, sacrificing one hand is no more necessary!
+
+## Code of Conduct
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
