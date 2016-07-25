@@ -47,7 +47,12 @@
     <Compile Include="Preprocessing\IPreprocessor.cs" />
     <Compile Include="Preprocessing\NullPreprocessor.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Project>{4173bbc5-669b-41dc-a991-5a0fbe454794}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

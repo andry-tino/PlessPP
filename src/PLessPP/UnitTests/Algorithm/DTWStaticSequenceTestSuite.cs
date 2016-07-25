@@ -8,6 +8,7 @@ namespace PLessPP.Testing
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+    using PLessPP.Data;
     using PLessPP.Similarity.Data;
     using PLessPP.Similarity;
 
@@ -20,11 +21,17 @@ namespace PLessPP.Testing
         [TestMethod]
         public void EqualSmallSequences()
         {
-            double[] values = new double[] { 1, 2, 3, 4 };
+            Point[] values = new Point[] {
+                Utils.BuildPoint(1),
+                Utils.BuildPoint(2),
+                Utils.BuildPoint(3),
+                Utils.BuildPoint(4) };
+
             Sequence sequence1 = new Sequence(values);
             Sequence sequence2 = new Sequence(values);
 
-            ISimilarityAlgorithm dtwAlgorithm = new DynamicTimeWarpingAlgorithm();
+            ISimilarityAlgorithm dtwAlgorithm = new DynamicTimeWarpingAlgorithm(
+                new AbsoluteDifferencePointDistanceCalculator());
 
             double similarity = dtwAlgorithm.ComputeSimilarity(sequence1, sequence2);
 
@@ -34,10 +41,19 @@ namespace PLessPP.Testing
         [TestMethod]
         public void DifferentSmallSequences()
         {
-            Sequence sequence1 = new Sequence(1, 2, 3, 4);
-            Sequence sequence2 = new Sequence(5, 6, 7, 8);
+            Sequence sequence1 = new Sequence(
+                Utils.BuildPoint(1),
+                Utils.BuildPoint(2),
+                Utils.BuildPoint(3),
+                Utils.BuildPoint(4));
+            Sequence sequence2 = new Sequence(
+                Utils.BuildPoint(5),
+                Utils.BuildPoint(6),
+                Utils.BuildPoint(7),
+                Utils.BuildPoint(8));
 
-            ISimilarityAlgorithm dtwAlgorithm = new DynamicTimeWarpingAlgorithm();
+            ISimilarityAlgorithm dtwAlgorithm = new DynamicTimeWarpingAlgorithm(
+                new AbsoluteDifferencePointDistanceCalculator());
 
             double similarity = dtwAlgorithm.ComputeSimilarity(sequence1, sequence2);
 
@@ -47,16 +63,17 @@ namespace PLessPP.Testing
         [TestMethod]
         public void EqualLargeSequences()
         {
-            double[] values = new double[1000];
+            Point[] values = new Point[1000];
             for (int i = 0; i < values.Length; i++)
             {
-                values[i] = i;
+                values[i] = Utils.BuildPoint(i);
             }
 
             Sequence sequence1 = new Sequence(values);
             Sequence sequence2 = new Sequence(values);
 
-            ISimilarityAlgorithm dtwAlgorithm = new DynamicTimeWarpingAlgorithm();
+            ISimilarityAlgorithm dtwAlgorithm = new DynamicTimeWarpingAlgorithm(
+                new AbsoluteDifferencePointDistanceCalculator());
 
             double similarity = dtwAlgorithm.ComputeSimilarity(sequence1, sequence2);
 
@@ -66,22 +83,23 @@ namespace PLessPP.Testing
         [TestMethod]
         public void DifferentLargeSequences()
         {
-            double[] values1 = new double[1000];
-            double[] values2 = new double[1000];
+            Point[] values1 = new Point[1000];
+            Point[] values2 = new Point[1000];
 
             for (int i = 0; i < values1.Length; i++)
             {
-                values1[i] = i;
+                values1[i] = Utils.BuildPoint(i);
             }
             for (int i = 0; i < values2.Length; i++)
             {
-                values2[i] = i + values1.Length;
+                values2[i] = Utils.BuildPoint(i + values1.Length);
             }
 
             Sequence sequence1 = new Sequence(values1);
             Sequence sequence2 = new Sequence(values2);
 
-            ISimilarityAlgorithm dtwAlgorithm = new DynamicTimeWarpingAlgorithm();
+            ISimilarityAlgorithm dtwAlgorithm = new DynamicTimeWarpingAlgorithm(
+                new AbsoluteDifferencePointDistanceCalculator());
 
             double similarity = dtwAlgorithm.ComputeSimilarity(sequence1, sequence2);
 

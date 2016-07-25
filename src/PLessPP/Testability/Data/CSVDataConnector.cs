@@ -7,6 +7,7 @@ namespace PLessPP.Testing.Testability.Data
     using System;
     using System.IO;
 
+    using PLessPP.Data;
     using PLessPP.Similarity.Data;
 
     /// <summary>
@@ -14,6 +15,8 @@ namespace PLessPP.Testing.Testability.Data
     /// </summary>
     public class CSVDataConnector : IDataConnector
     {
+        private const int numberOfValidNumberPerLine = 6;
+
         private Sequence sequence;
         private string filePath;
 
@@ -37,7 +40,7 @@ namespace PLessPP.Testing.Testability.Data
         }
 
         /// <summary>
-        /// 
+        /// Will aggregate all data for each timestamp. Timestamp is removed.
         /// </summary>
         public Sequence Data
         {
@@ -54,17 +57,30 @@ namespace PLessPP.Testing.Testability.Data
 
         private void GetData()
         {
-            string content = File.ReadAllText(this.filePath);
+            string[] lines = File.ReadAllLines(this.filePath);
 
-            // Split commans and get values
-            string[] numbers = content.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+            Point[] values = new Point[lines.Length];
 
-            // Convert to double
-            double[] values = new double[numbers.Length];
-
-            for (int i = 0; i < numbers.Length; i++)
+            for (int i = 0; i < values.Length; i++)
             {
-                values[i] = double.Parse(numbers[i]);
+                // Split commans and get values
+                string[] numbers = lines[i].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+
+                if (numbers.Length != numberOfValidNumberPerLine + 1) // Timestamp will be discarded
+                {
+                    throw new InvalidDataException("Provided data not in correct format!");
+                }
+
+                values[i] = new Point()
+                {
+                    AccelerationX   = double.Parse(numbers[0]),
+                    AccelerationY   = double.Parse(numbers[1]),
+                    AccelerationZ   = double.Parse(numbers[2]),
+                    GyroX           = double.Parse(numbers[3]),
+                    GyroY           = double.Parse(numbers[4]),
+                    GyroZ           = double.Parse(numbers[5]),
+                    Timestamp       = uint.Parse(numbers[6])
+                };
             }
 
             this.sequence = new Sequence(values);

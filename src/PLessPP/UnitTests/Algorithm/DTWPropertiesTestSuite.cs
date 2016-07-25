@@ -8,6 +8,7 @@ namespace PLessPP.Testing
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+    using PLessPP.Data;
     using PLessPP.Similarity.Data;
     using PLessPP.Similarity;
 
@@ -20,10 +21,19 @@ namespace PLessPP.Testing
         [TestMethod]
         public void SimilarityIsPositiveNumber()
         {
-            Sequence sequence1 = new Sequence(1, 2, 3, 4);
-            Sequence sequence2 = new Sequence(5, 6, 7, 8);
+            Sequence sequence1 = new Sequence(
+                Utils.BuildPoint(1),
+                Utils.BuildPoint(2),
+                Utils.BuildPoint(3),
+                Utils.BuildPoint(4));
+            Sequence sequence2 = new Sequence(
+                Utils.BuildPoint(5),
+                Utils.BuildPoint(6),
+                Utils.BuildPoint(7),
+                Utils.BuildPoint(8));
 
-            ISimilarityAlgorithm dtwAlgorithm = new DynamicTimeWarpingAlgorithm();
+            ISimilarityAlgorithm dtwAlgorithm = new DynamicTimeWarpingAlgorithm(
+                new AbsoluteDifferencePointDistanceCalculator());
 
             double similarity1 = dtwAlgorithm.ComputeSimilarity(sequence1, sequence2);
             double similarity2 = dtwAlgorithm.ComputeSimilarity(sequence2, sequence1);
@@ -35,10 +45,19 @@ namespace PLessPP.Testing
         [TestMethod]
         public void SimilarityIsComutative()
         {
-            Sequence sequence1 = new Sequence(1, 2, 3, 4);
-            Sequence sequence2 = new Sequence(5, 6, 7, 8);
+            Sequence sequence1 = new Sequence(
+                Utils.BuildPoint(1),
+                Utils.BuildPoint(2),
+                Utils.BuildPoint(3),
+                Utils.BuildPoint(4));
+            Sequence sequence2 = new Sequence(
+                Utils.BuildPoint(5),
+                Utils.BuildPoint(6),
+                Utils.BuildPoint(7),
+                Utils.BuildPoint(8));
 
-            ISimilarityAlgorithm dtwAlgorithm = new DynamicTimeWarpingAlgorithm();
+            ISimilarityAlgorithm dtwAlgorithm = new DynamicTimeWarpingAlgorithm(
+                new AbsoluteDifferencePointDistanceCalculator());
 
             double similarity1 = dtwAlgorithm.ComputeSimilarity(sequence1, sequence2);
             double similarity2 = dtwAlgorithm.ComputeSimilarity(sequence2, sequence1);

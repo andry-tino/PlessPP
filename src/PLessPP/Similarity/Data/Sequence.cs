@@ -9,30 +9,30 @@ namespace PLessPP.Similarity.Data
     using System.Collections.Generic;
     using System.Linq;
 
-    using SequenceUnit = System.Double;
+    using PLessPP.Data;
 
     /// <summary>
     /// 
     /// </summary>
-    public class Sequence : IEnumerable<SequenceUnit>
+    public class Sequence : IEnumerable<Point>
     {
-        private IEnumerable<SequenceUnit> sequence;
+        private IEnumerable<Point> sequence;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Sequence"/> class.
         /// </summary>
         /// <param name="values"></param>
-        public Sequence(params SequenceUnit[] values)
+        public Sequence(params Point[] values)
         {
             if (values == null)
             {
                 throw new ArgumentNullException(nameof(values));
             }
 
-            this.sequence = new SequenceUnit[values.Length];
+            this.sequence = new Point[values.Length];
             for (int i = 0; i < values.Length; i++)
             {
-                (this.sequence as SequenceUnit[])[i] = values[i];
+                (this.sequence as Point[])[i] = values[i];
             }
         }
 
@@ -41,7 +41,7 @@ namespace PLessPP.Similarity.Data
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public SequenceUnit this[int index]
+        public Point this[int index]
         {
             get { return this.sequence.ElementAt(index); }
         }
@@ -58,7 +58,7 @@ namespace PLessPP.Similarity.Data
         /// 
         /// </summary>
         /// <returns></returns>
-        public IEnumerator<SequenceUnit> GetEnumerator()
+        public IEnumerator<Point> GetEnumerator()
         {
             return this.sequence.GetEnumerator();
         }
