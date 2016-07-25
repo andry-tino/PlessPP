@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Communications", "Communica
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Similarity", "Similarity\Similarity.csproj", "{81F70047-EF8E-402F-A492-BBBB3C8A7FE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{D78D7783-8137-4AF4-98BF-F1B2445C930F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Similarity.UnitTests", "UnitTests\Similarity.UnitTests.csproj", "{D78D7783-8137-4AF4-98BF-F1B2445C930F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{6ECD9BF9-95D6-45E0-898A-B97E4A582C5E}"
 EndProject

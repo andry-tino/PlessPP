@@ -9,20 +9,31 @@ namespace PLessPP.Similarity.Data
     using System.Collections.Generic;
     using System.Linq;
 
-    using SrequenceUnit = System.Double;
+    using SequenceUnit = System.Double;
 
     /// <summary>
     /// 
     /// </summary>
-    public class Sequence : IEnumerable<SrequenceUnit>
+    public class Sequence : IEnumerable<SequenceUnit>
     {
-        private IEnumerable<SrequenceUnit> sequence;
+        private IEnumerable<SequenceUnit> sequence;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Sequence"/> class.
         /// </summary>
-        public Sequence()
+        /// <param name="values"></param>
+        public Sequence(params SequenceUnit[] values)
         {
+            if (values == null)
+            {
+                throw new ArgumentNullException(nameof(values));
+            }
+
+            this.sequence = new SequenceUnit[values.Length];
+            for (int i = 0; i < values.Length; i++)
+            {
+                (this.sequence as SequenceUnit[])[i] = values[i];
+            }
         }
 
         /// <summary>
@@ -30,7 +41,7 @@ namespace PLessPP.Similarity.Data
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public SrequenceUnit this[int index]
+        public SequenceUnit this[int index]
         {
             get { return this.sequence.ElementAt(index); }
         }
@@ -47,9 +58,9 @@ namespace PLessPP.Similarity.Data
         /// 
         /// </summary>
         /// <returns></returns>
-        public IEnumerator<SrequenceUnit> GetEnumerator()
+        public IEnumerator<SequenceUnit> GetEnumerator()
         {
-            throw new NotImplementedException();
+            return this.sequence.GetEnumerator();
         }
 
         /// <summary>
@@ -58,7 +69,7 @@ namespace PLessPP.Similarity.Data
         /// <returns></returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return this.sequence.GetEnumerator();
         }
     }
 }
