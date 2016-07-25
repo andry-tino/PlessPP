@@ -5,20 +5,35 @@
 namespace PLessPP.Testing.Validity.TestObjects
 {
     using System;
+    using System.IO;
 
     /// <summary>
     /// 
     /// </summary>
-    internal class TestObjectsProvider
+    internal static class TestObjectsProvider
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string SampleDataNegativeDev1FilePath = "SampleData_Negative_Dev1.csv";
+        private const string sampleDataNegativeDev1FilePath = "SampleData_Negative_Dev1.csv";
+        private const string sampleDataNegativeDev2FilePath = "SampleData_Negative_Dev2.csv";
 
         /// <summary>
         /// 
         /// </summary>
-        public const string SampleDataNegativeDev2FilePath = "SampleData_Negative_Dev2.csv";
+        public static string SampleDataNegativeDev1FilePath
+        {
+            get { return GetPath(sampleDataNegativeDev1FilePath); }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static string SampleDataNegativeDev2FilePath
+        {
+            get { return GetPath(sampleDataNegativeDev2FilePath); }
+        }
+
+        private static string GetPath(string fileName)
+        {
+            return Path.Combine(Directory.GetCurrentDirectory(), "Validity", "TestObjects", fileName);
+        }
     }
 }
