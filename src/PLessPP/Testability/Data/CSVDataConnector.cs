@@ -79,7 +79,7 @@ namespace PLessPP.Testing.Testability.Data
                     GyroX           = double.Parse(numbers[3]),
                     GyroY           = double.Parse(numbers[4]),
                     GyroZ           = double.Parse(numbers[5]),
-                    Timestamp       = uint.Parse(numbers[6])
+                    Timestamp       = System.UInt64.Parse(numbers[6])
                 };
             }
 

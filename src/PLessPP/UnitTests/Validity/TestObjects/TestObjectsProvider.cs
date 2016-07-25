@@ -14,6 +14,10 @@ namespace PLessPP.Testing.Validity.TestObjects
     {
         private const string sampleDataNegativeDev1FilePath = "SampleData_Negative_Dev1.csv";
         private const string sampleDataNegativeDev2FilePath = "SampleData_Negative_Dev2.csv";
+        private const string sampleDataPositiveDev31FilePath = "SampleData_Positive_Dev3_1.csv";
+        private const string sampleDataPositiveDev32FilePath = "SampleData_Positive_Dev3_2.csv";
+        private const string sampleDataPositiveDev4FilePath = "SampleData_Positive_Dev4.csv";
+        private const string sampleDataPositiveDev5FilePath = "SampleData_Positive_Dev5.csv";
 
         /// <summary>
         /// 
@@ -29,6 +33,38 @@ namespace PLessPP.Testing.Validity.TestObjects
         public static string SampleDataNegativeDev2FilePath
         {
             get { return GetPath(sampleDataNegativeDev2FilePath); }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static string SampleDataPositiveDev31FilePath
+        {
+            get { return GetPath(sampleDataPositiveDev31FilePath); }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static string SampleDataPositiveDev32FilePath
+        {
+            get { return GetPath(sampleDataPositiveDev32FilePath); }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static string SampleDataPositiveDev4FilePath
+        {
+            get { return GetPath(sampleDataPositiveDev4FilePath); }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static string SampleDataPositiveDev5FilePath
+        {
+            get { return GetPath(sampleDataPositiveDev5FilePath); }
         }
 
         private static string GetPath(string fileName)
