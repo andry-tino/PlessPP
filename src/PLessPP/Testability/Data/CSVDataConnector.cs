@@ -12,7 +12,7 @@ namespace PLessPP.Testing.Testability.Data
     /// <summary>
     /// 
     /// </summary>
-    internal class CSVDataConnector : IDataConnector
+    public class CSVDataConnector : IDataConnector
     {
         private Sequence sequence;
         private string filePath;
