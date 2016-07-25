@@ -50,6 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Algorithm\DTWPropertiesTestSuite.cs" />
     <Compile Include="Algorithm\DTWStaticSequenceTestSuite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

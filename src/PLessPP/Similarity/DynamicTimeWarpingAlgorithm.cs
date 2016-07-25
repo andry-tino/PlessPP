@@ -45,27 +45,27 @@ namespace PLessPP.Similarity
             double[,] dtw = new double[l1, l2];
 
             // Initialization
-            for (int i = 0; i < l1; i++)
+            for (int i = 1; i < l1; i++)
             {
                 dtw[i, 0] = Infinity;
             }
-            for (int i = 0; i < l2; i++)
+            for (int i = 1; i < l2; i++)
             {
                 dtw[0, i] = Infinity;
             }
             dtw[0, 0] = 0;
 
             // Processing
-            for (int i = 0; i < l1; i++)
+            for (int i = 1; i < l1; i++)
             {
-                for (int j = 0; j < l2; j++)
+                for (int j = 1; j < l2; j++)
                 {
                     double distance = GetDistance(sequence1[i], sequence2[j]);
 
                     dtw[i, j] = distance + GetMinimum(
-                        dtw[i, j + 1], 
-                        dtw[i + 1, j], 
-                        dtw[i, j]);
+                        dtw[i - 1, j    ], 
+                        dtw[i    , j - 1], 
+                        dtw[i - 1, j - 1]);
                 }
             }
 
