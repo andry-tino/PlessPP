@@ -44,8 +44,8 @@
     <Compile Include="DynamicTimeWarpingAlgorithm.cs" />
     <Compile Include="ISimilarityAlgorithm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Proprocessing\IPreprocessor.cs" />
-    <Compile Include="Proprocessing\NullPreprocessor.cs" />
+    <Compile Include="Preprocessing\IPreprocessor.cs" />
+    <Compile Include="Preprocessing\NullPreprocessor.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
