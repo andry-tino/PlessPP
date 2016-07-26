@@ -11,8 +11,6 @@
         <ScrollViewer Margin="110,175,110,110" VerticalScrollBarVisibility="Auto">
             <TextBlock TextWrapping="Wrap" Text="{Binding StatusMessage}" FontSize="20"/>
         </ScrollViewer>
-        <TextBox x:Name="gyroscopeTextBox" HorizontalAlignment="Left" Margin="107,175,0,0" TextWrapping="Wrap" Text="GyroscopeTextBox" VerticalAlignment="Top" Width="443"/>
-        <CheckBox x:Name="recordCheckBox" Content="Record" HorizontalAlignment="Left" Margin="104,123,0,0" VerticalAlignment="Top" Unchecked="recordCheckBox_Unchecked"/>
-
+        <TextBox x:Name="gyroscopeTextBox" HorizontalAlignment="Left" Margin="107,99,0,0" TextWrapping="Wrap" Text="GyroscopeTextBox" VerticalAlignment="Top" Width="443"/>
     </Grid>
 </Page>

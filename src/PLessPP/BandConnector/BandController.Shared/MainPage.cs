@@ -19,20 +19,24 @@
 using Microsoft.Band;
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using Windows.Storage;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
 using Microsoft.Band.Notifications;
 using Microsoft.Band.Sensors;
 
 namespace BandController
 {
+    using System.Collections.Concurrent;
+    using System.Threading.Tasks;
+
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    partial class MainPage
+    public sealed partial class MainPage
     {
+        private const int SecondsOfData = 4;
+        private const int ItemsPerSecond = 64;
+        private const int ItemsInChunk = SecondsOfData * ItemsPerSecond;
 
         private App viewModel;
 
@@ -40,17 +44,17 @@ namespace BandController
 
         private IBandClient bandClient;
 
-        class DataChunk
+        public class DataPoint
         {
-            public double AcceleartionX { get; }
-            public double AcceleartionY { get; }
-            public double AcceleartionZ { get; }
-            public double AngularVelocityX { get; }
-            public double AngularVelocityY { get; }
-            public double AngularVelocityZ { get; }
+            private double AcceleartionX { get; }
+            private double AcceleartionY { get; }
+            private double AcceleartionZ { get; }
+            private double AngularVelocityX { get; }
+            private double AngularVelocityY { get; }
+            private double AngularVelocityZ { get; }
             public long Ticks { get; }
 
-            public DataChunk(double acceleartionX,
+            public DataPoint(double acceleartionX,
                 double acceleartionY,
                 double acceleartionZ,
                 double angularVelocityX,
@@ -69,20 +73,31 @@ namespace BandController
 
             public override String ToString()
             {
-                return String.Format("{0},{1},{2},{3},{4},{5},{6}",
-                    this.AcceleartionX,this.AcceleartionY,this.AcceleartionZ,
-                    this.AngularVelocityX,this.AngularVelocityY,this.AngularVelocityZ,
-                    this.Ticks);
+                return
+                    $"{this.AcceleartionX},{this.AcceleartionY},{this.AcceleartionZ},{this.AngularVelocityX},{this.AngularVelocityY},{this.AngularVelocityZ},{this.Ticks}";
             }
         }
 
-        List<DataChunk> dataChunks = new List<DataChunk>();
+        private readonly ConcurrentQueue<DataPoint> dataPoints = new ConcurrentQueue<DataPoint>();
 
-        // process data funciton
-        async void ProcessData()
+        public DataPoint[] GetCurrentChunk()
+        {
+            lock (this.dataPoints)
+            {
+                return this.dataPoints.ToArray();
+            }
+        }
+
+        /// <summary>
+        ///     TODO get from Andrea
+        /// </summary>
+        /// <param name="points"></param>
+        private async void ProcessData(DataPoint[] points)
         {
             StorageFolder folder = ApplicationData.Current.LocalFolder;
             var now = DateTime.Now;
+
+            // This commented code is for when you want to write sample data to a file
             /*
             StorageFile outputFile =
                 (await
@@ -98,74 +113,62 @@ namespace BandController
             dataChunks.Clear();
             */
 
-            StorageFile outputFile =
-                (await
-                    folder.GetFileAsync(@"Sampledata.txt"));
-            var lines = new List<string>();
-            lines.Add("New entry " + now);
-            await FileIO.AppendLinesAsync(outputFile, lines);
-            dataChunks.Clear();
-            await bandClient.NotificationManager.VibrateAsync(VibrationType.TwoToneHigh);
-
-        }
-        async private void GyroscopeReadingChanged(object sender, BandSensorReadingEventArgs<IBandGyroscopeReading> e)
-        {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            double averageAccX = 0;
+            foreach (DataPoint point in points)
             {
-                // Read data
-                var reading = e.SensorReading;
+                averageAccX += point.Ticks;
+            }
+            averageAccX /= points.Length;
+            averageAccX /= 64848;
 
+            if ( (Math.Ceiling(averageAccX) % 1000 == 2) && ((DateTime.Now - this.lastTimeOfWrite).Seconds > 1) )
+            {
+                this.lastTimeOfWrite =DateTime.Now;
+                StorageFile outputFile = (await folder.GetFileAsync(@"Sampledata.txt"));
+                var lines = new List<string>();
+                lines.Add("New entry " + now);
+                await FileIO.AppendLinesAsync(outputFile, lines);
+                await bandClient.NotificationManager.VibrateAsync(VibrationType.TwoToneHigh);
+            }
+        }
+
+        private async void GyroscopeReadingChanged(object sender, BandSensorReadingEventArgs<IBandGyroscopeReading> e)
+        {
+            // Read data
+            var reading = e.SensorReading;
+
+            // Add data to the array
+            lock (this.dataPoints)
+            {
+                // Add new data
+                this.dataPoints.Enqueue(new DataPoint(reading.AccelerationX, reading.AccelerationY, reading.AccelerationZ, reading.AngularVelocityX,
+                    reading.AngularVelocityY, reading.AngularVelocityZ, reading.Timestamp.Ticks));
+
+                // Throw out old data
+                if(this.dataPoints.Count > ItemsInChunk)
+                {
+                    DataPoint toChug;
+                    this.dataPoints.TryDequeue(out toChug);
+                }
+            }
+
+            await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
                 // Change Text Box
-                this.gyroscopeTextBox.Text = String.Format("{0,5:0.00}", reading.AccelerationX);
-                this.gyroscopeTextBox.Text += " " + String.Format("{0,5:0.00}", reading.AccelerationY);
-                this.gyroscopeTextBox.Text += " " + String.Format("{0,5:0.00}", reading.AccelerationZ);
-                this.gyroscopeTextBox.Text += " " + String.Format("{0,5:0.00}", reading.AngularVelocityX);
-                this.gyroscopeTextBox.Text += " " + String.Format("{0,5:0.00}", reading.AngularVelocityY);
-                this.gyroscopeTextBox.Text += " " + String.Format("{0,5:0.00}", reading.AngularVelocityZ);
-
-                // Add data to the array
-                if (recordCheckBox.IsChecked != null && recordCheckBox.IsChecked.Value)
-                {
-                    this.dataChunks.Add(new DataChunk(reading.AccelerationX,
-                        reading.AccelerationY,
-                        reading.AccelerationZ,
-                        reading.AngularVelocityX,
-                        reading.AngularVelocityY,
-                        reading.AngularVelocityZ,
-                        DateTime.Now.Ticks));
-                }
-                if (reading.AccelerationX > 2)
-                {
-                    if ((DateTime.Now - lastTimeOfWrite).Seconds > 2)
-                    {
-                        // TODO: Make this work
-                        // ControlPowerPoint(0);
-                        ProcessData();
-                        lastTimeOfWrite = DateTime.Now;
-                    }
-                }
+                this.gyroscopeTextBox.Text = $"{reading.AccelerationX,5:0.00}";
+                this.gyroscopeTextBox.Text += $" {reading.AccelerationY,5:0.00}";
+                this.gyroscopeTextBox.Text += $" {reading.AccelerationZ,5:0.00}";
+                this.gyroscopeTextBox.Text += $" {reading.AngularVelocityX,5:0.00}";
+                this.gyroscopeTextBox.Text += $" {reading.AngularVelocityY,5:0.00}";
+                this.gyroscopeTextBox.Text += $" {reading.AngularVelocityZ,5:0.00}";
             });
         }
-
-        private void recordCheckBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-            //ProcessData();
-        }
-
-        [DllImport("PowerPointControllerAddin.dll")]
-        public static extern void GetPowerPoint();
-
-        [DllImport("PowerPointControllerAddin.dll")]
-        public static extern void ControlPowerPoint(int actionIndex);
-
+        
         private async void RunProgram()
         {
-            lastTimeOfWrite = DateTime.Now;
+            this.lastTimeOfWrite = DateTime.Now;
             this.viewModel.StatusMessage = "Running ...";
-
-            // TODO: Make this work
-            // GetPowerPoint();
-
+            
             try
             {
                 // Get the list of Microsoft Bands paired to the phone.
@@ -182,6 +185,15 @@ namespace BandController
                 int samplesReceived = 0; // the number of Gyroscope samples received
                 // Subscribe to Gyroscope data.
                 bandClient.SensorManager.Gyroscope.ReadingChanged += this.GyroscopeReadingChanged;
+                
+                Task task = Task.Run(() =>
+                {
+                    while (true)
+                    {
+                        DataPoint[] pointsClone = this.GetCurrentChunk();
+                        this.ProcessData(pointsClone);
+                    }
+                });
 
                 await bandClient.SensorManager.Gyroscope.StartReadingsAsync();
 

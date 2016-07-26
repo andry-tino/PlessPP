@@ -44,7 +44,7 @@ namespace PLessPP.Data
         /// <summary>
         /// 
         /// </summary>
-        public UInt64 Timestamp { get; set; }
+        public long Timestamp { get; set; }
 
         /// <summary>
         /// 
@@ -56,7 +56,7 @@ namespace PLessPP.Data
         /// <param name="gyrY"></param>
         /// <param name="gyrZ"></param>
         /// <param name="tstamp"></param>
-        public Point(double accX, double accY, double accZ, double gyrX, double gyrY, double gyrZ, UInt64 tstamp)
+        public Point(double accX, double accY, double accZ, double gyrX, double gyrY, double gyrZ, long tstamp)
         {
             this.AccelerationX = accX;
             this.AccelerationY = accY;
