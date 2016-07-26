@@ -17,6 +17,7 @@ namespace PLessPP.Testing.AI.SearchAlgorithms.TestObjects
         private const string sampleDataAndreaNP2N = "SampleData_Andrea_NP2N.csv";
         private const string sampleDataAndreaPositive1 = "SampleData_Andrea_Positive_1.csv";
         private const string sampleDataAndreaPositive2 = "SampleData_Andrea_Positive_2.csv";
+        private const string sampleDataLianshengPositive = "SampleData_Liansheng_Positive.csv";
 
         /// <summary>
         /// 
@@ -67,6 +68,16 @@ namespace PLessPP.Testing.AI.SearchAlgorithms.TestObjects
         /// 
         /// </summary>
         public const int SampleDataAndreaPositive2Length = 87;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const int SampleDataLianshengPositiveLength = 103;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static string SampleDataLianshengPositive => GetPath(sampleDataLianshengPositive);
 
         private static string GetPath(string fileName)
         {

@@ -27,7 +27,10 @@ using Microsoft.Band.Sensors;
 namespace BandController
 {
     using System.Collections.Concurrent;
+    using System.IO;
     using System.Threading.Tasks;
+    using Windows.Networking;
+    using Windows.Networking.Sockets;
 
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -43,6 +46,8 @@ namespace BandController
         private DateTime lastTimeOfWrite;
 
         private IBandClient bandClient;
+
+        private StreamSocket client;
 
         public class DataPoint
         {
@@ -94,9 +99,6 @@ namespace BandController
         /// <param name="points"></param>
         private async void ProcessData(DataPoint[] points)
         {
-            StorageFolder folder = ApplicationData.Current.LocalFolder;
-            var now = DateTime.Now;
-
             // This commented code is for when you want to write sample data to a file
             /*
             StorageFile outputFile =
@@ -123,11 +125,7 @@ namespace BandController
 
             if ( (Math.Ceiling(averageAccX) % 1000 == 2) && ((DateTime.Now - this.lastTimeOfWrite).Seconds > 1) )
             {
-                this.lastTimeOfWrite =DateTime.Now;
-                StorageFile outputFile = (await folder.GetFileAsync(@"Sampledata.txt"));
-                var lines = new List<string>();
-                lines.Add("New entry " + now);
-                await FileIO.AppendLinesAsync(outputFile, lines);
+                // todo remove this
                 await bandClient.NotificationManager.VibrateAsync(VibrationType.TwoToneHigh);
             }
         }
@@ -140,15 +138,28 @@ namespace BandController
             // Add data to the array
             lock (this.dataPoints)
             {
+                var datapoint = new DataPoint(reading.AccelerationX, reading.AccelerationY, reading.AccelerationZ, reading.AngularVelocityX,
+                    reading.AngularVelocityY, reading.AngularVelocityZ, reading.Timestamp.Ticks);
                 // Add new data
-                this.dataPoints.Enqueue(new DataPoint(reading.AccelerationX, reading.AccelerationY, reading.AccelerationZ, reading.AngularVelocityX,
-                    reading.AngularVelocityY, reading.AngularVelocityZ, reading.Timestamp.Ticks));
+                this.dataPoints.Enqueue(datapoint);
 
                 // Throw out old data
                 if(this.dataPoints.Count > ItemsInChunk)
                 {
                     DataPoint toChug;
                     this.dataPoints.TryDequeue(out toChug);
+                }
+
+                // send data to win32 land
+                try
+                {
+                    var streamWriter = new StreamWriter(this.client.OutputStream.AsStreamForWrite());
+                    streamWriter.WriteLine(datapoint);
+                    streamWriter.Flush();
+                }
+                catch
+                {
+                    // todo: probably the stream died we should let the user know
                 }
             }
 
@@ -166,7 +177,10 @@ namespace BandController
         
         private async void RunProgram()
         {
-            this.lastTimeOfWrite = DateTime.Now;
+            // connect to server
+            this.client = new StreamSocket();
+            var hostname = new HostName("127.0.0.1");
+            await client.ConnectAsync(hostname, "7039");
             this.viewModel.StatusMessage = "Running ...";
             
             try

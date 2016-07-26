@@ -21,7 +21,7 @@ namespace PLessPP.AI
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="results"></param>
+        /// <param name="threshold"></param>
         public MultiWindowMultiShiftThresholdSearchDecider(double threshold)
         {
             this.threshold = threshold;

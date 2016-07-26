@@ -90,6 +90,9 @@
     <None Include="SearchAlgorithms\TestObjects\SampleData_Andrea_Positive_2.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="SearchAlgorithms\TestObjects\SampleData_Liansheng_Positive.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
