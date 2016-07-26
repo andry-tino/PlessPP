@@ -2,7 +2,7 @@
 /// MultiWindowMultiShiftThresholdSearchDecider.cs
 /// </summary>
 
-namespace PLessPP.AI.SequenceSearch
+namespace PLessPP.AI
 {
     using System;
     using System.Collections.Generic;
@@ -50,7 +50,7 @@ namespace PLessPP.AI.SequenceSearch
             return this.matchFound.Value;
         }
 
-        private bool CompareWindowMatch(double[] windowDistances)
+        private bool CompareWindowMatch(IEnumerable<double> windowDistances)
         {
             foreach (var distance in windowDistances)
             {

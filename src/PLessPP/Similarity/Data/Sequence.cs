@@ -56,6 +56,20 @@ namespace PLessPP.Similarity.Data
         {
             get
             {
+                if (index1 < 0)
+                {
+                    throw new ArgumentException(nameof(index1), "Index cannot be negative!");
+                }
+                if (index2 < 0)
+                {
+                    throw new ArgumentException(nameof(index2), "Index cannot be negative!");
+                }
+
+                if (index1 > index2)
+                {
+                    throw new ArgumentException(nameof(index1), "Invalid range specified!");
+                }
+
                 List<Point> points = new List<Point>();
 
                 for (int i = index1; i <= index2; i++)

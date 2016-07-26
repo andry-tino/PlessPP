@@ -8,14 +8,12 @@ namespace PLessPP.AI
     using System.Collections;
     using System.Collections.Generic;
 
-    using PLessPP.Data;
-
     /// <summary>
     /// 
     /// </summary>
-    public class MultiWindowMultiShiftResults : IEnumerable<double[]>
+    public class MultiWindowMultiShiftResults : IEnumerable<IEnumerable<double>>
     {
-        List<double>[] results;
+        private List<double>[] results;
 
         /// <summary>
         /// 
@@ -24,6 +22,11 @@ namespace PLessPP.AI
         public MultiWindowMultiShiftResults(int windowsCount)
         {
             this.results = new List<double>[windowsCount];
+
+            for (int i = 0; i < windowsCount; i++)
+            {
+                this.results[i] = new List<double>();
+            }
         }
 
         /// <summary>
@@ -48,9 +51,9 @@ namespace PLessPP.AI
         /// 
         /// </summary>
         /// <returns></returns>
-        public IEnumerator<double[]> GetEnumerator()
+        public IEnumerator<IEnumerable<double>> GetEnumerator()
         {
-            return this.results.GetEnumerator() as IEnumerator<double[]>;
+            return ((IEnumerable<IEnumerable<double>>)this.results).GetEnumerator();
         }
 
         /// <summary>
@@ -59,7 +62,7 @@ namespace PLessPP.AI
         /// <returns></returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.results.GetEnumerator();
+            return this.GetEnumerator();
         }
     }
 }

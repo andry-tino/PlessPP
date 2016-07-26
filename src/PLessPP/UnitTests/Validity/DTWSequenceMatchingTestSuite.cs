@@ -12,10 +12,10 @@ namespace PLessPP.Testing
     using PLessPP.Similarity.Data;
     using PLessPP.Similarity;
     using PLessPP.Testing.Testability.Data;
-    using PLessPP.Testing.Validity.TestObjects;
+    using PLessPP.Testing.Similarity.Validity.TestObjects;
 
     /// <summary>
-    /// This test suite considers twi sequences of data from real sampling and compares them.
+    /// This test suite considers two sequences of data from real sampling and compares them.
     /// 
     /// Legend:
     /// Name is as follows: Scenario_<tester-type>_<hand>_<matching-config>_<distance-algo>

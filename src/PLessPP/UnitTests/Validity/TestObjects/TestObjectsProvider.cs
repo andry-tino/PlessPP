@@ -2,7 +2,7 @@
 /// TestObjectsProvider.cs
 /// </summary>
 
-namespace PLessPP.Testing.Validity.TestObjects
+namespace PLessPP.Testing.Similarity.Validity.TestObjects
 {
     using System;
     using System.IO;

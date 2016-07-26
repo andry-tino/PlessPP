@@ -48,15 +48,13 @@ namespace PLessPP.AI
             {
                 var windowSize = this.windowSizes[k];
 
-                for (int i = 0; ; i++)
+                // Attention: here we might lose a residual window which does not have the expected size but lower, 
+                // we discard that data at the moment
+                for (int i = 0; i <= sequence.Length - windowSize; i += shift)
                 {
-                    int lastIndex = i * shift + windowSize;
-                    if (lastIndex >= sequence.Length)
-                    {
-                        lastIndex = sequence.Length - 1;
-                    }
+                    int lastIndex = i + windowSize - 1;
 
-                    Sequence windowedSequence = sequence[i * shift, lastIndex];
+                    Sequence windowedSequence = sequence[i, lastIndex];
 
                     double similarity = this.similarityAlgorithm.ComputeSimilarity(this.baseline, windowedSequence);
                     mwmsResults.AddDistanceToWindow(k, similarity);
