@@ -168,6 +168,40 @@ namespace PLessPP.Testing
             Assert.AreNotEqual(0, similarity, "Two negative sequences from different testers should not give zero similarity!");
         }
 
+        /// <summary>
+        /// Two different developers.
+        /// Two positive sequences.
+        /// Left hand.
+        /// Absolute distance.
+        /// </summary>
+        [TestMethod]
+        public void Scenario_AndreaxLiansheng_Sx_PxP_A()
+        {
+            double similarity = GetDistance(
+                TestObjectsProvider.SampleDataPositiveAndrea2FilePath,
+                TestObjectsProvider.SampleDataPositiveLiansheng2FilePath,
+                new AbsoluteDifferencePointDistanceCalculator());
+
+            Assert.AreNotEqual(0, similarity, "Two negative sequences from different testers should not give zero similarity!");
+        }
+
+        /// <summary>
+        /// Two different developers.
+        /// Two positive sequences.
+        /// Left hand.
+        /// Euclidean distance.
+        /// </summary>
+        [TestMethod]
+        public void Scenario_AndreaxLiansheng_Sx_PxP_E()
+        {
+            double similarity = GetDistance(
+                TestObjectsProvider.SampleDataPositiveAndrea2FilePath,
+                TestObjectsProvider.SampleDataPositiveLiansheng2FilePath,
+                new EuclideanPointDistanceCalculator());
+
+            Assert.AreNotEqual(0, similarity, "Two negative sequences from different testers should not give zero similarity!");
+        }
+
         private static double GetDistance(string file1, string file2, IPointDistanceCalculator distanceCalculator)
         {
             CSVDataConnector dataConnector1 = new CSVDataConnector(file1);
