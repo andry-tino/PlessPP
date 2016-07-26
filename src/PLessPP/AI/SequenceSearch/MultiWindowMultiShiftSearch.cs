@@ -24,6 +24,8 @@ namespace PLessPP.AI
         /// </summary>
         /// <param name="shift"></param>
         /// <param name="windowSizes"></param>
+        /// <param name="baseline"></param>
+        /// <param name="similarityAlgorithm"></param>
         public MultiWindowMultiShiftSearch(int shift, int[] windowSizes, Sequence baseline, ISimilarityAlgorithm similarityAlgorithm)
         {
             // TODO: Add checks

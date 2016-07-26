@@ -56,7 +56,7 @@ namespace PLessPP.Data
         {
             Point sum = new Point(0, 0, 0, 0, 0, 0, 0);
 
-            foreach (var point in sequence)
+            foreach (var point in this.sequence)
             {
                 sum += point;
             }
@@ -65,7 +65,7 @@ namespace PLessPP.Data
 
             Point squareSum = new Point(0, 0, 0, 0, 0, 0, 0);
 
-            foreach (var point in sequence)
+            foreach (var point in this.sequence)
             {
                 squareSum += (point - this.Mean) * (point - this.Mean);
             }
@@ -95,16 +95,16 @@ namespace PLessPP.Data
             {
                 if (index1 < 0)
                 {
-                    throw new ArgumentException(nameof(index1), "Index cannot be negative!");
+                    throw new ArgumentException("Index cannot be negative!", nameof(index1));
                 }
                 if (index2 < 0)
                 {
-                    throw new ArgumentException(nameof(index2), "Index cannot be negative!");
+                    throw new ArgumentException("Index cannot be negative!", nameof(index2));
                 }
 
                 if (index1 > index2)
                 {
-                    throw new ArgumentException(nameof(index1), "Invalid range specified!");
+                    throw new ArgumentException("Invalid range specified!", nameof(index1));
                 }
 
                 List<Point> points = new List<Point>();
