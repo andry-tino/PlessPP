@@ -76,5 +76,65 @@ namespace PLessPP.Data
         public Point(double accX, double accY, double accZ) : this(accX, accY, accZ, 0, 0, 0, 0)
         {
         }
+
+        public static Point operator +(Point point1, Point point2)
+        {
+            return new Point(
+                point1.AccelerationX + point2.AccelerationX,
+                point1.AccelerationY + point2.AccelerationY,
+                point1.AccelerationZ + point2.AccelerationZ,
+                point1.GyroX + point2.GyroX,
+                point1.GyroY + point2.GyroY,
+                point1.GyroZ + point2.GyroZ,
+                0);
+        }
+
+        public static Point operator -(Point point1, Point point2)
+        {
+            return new Point(
+                point1.AccelerationX - point2.AccelerationX,
+                point1.AccelerationY - point2.AccelerationY,
+                point1.AccelerationZ - point2.AccelerationZ,
+                point1.GyroX - point2.GyroX,
+                point1.GyroY - point2.GyroY,
+                point1.GyroZ - point2.GyroZ,
+                point1.Timestamp);
+        }
+
+        public static Point operator *(Point point1, Point point2)
+        {
+            return new Point(
+                point1.AccelerationX * point2.AccelerationX,
+                point1.AccelerationY * point2.AccelerationY,
+                point1.AccelerationZ * point2.AccelerationZ,
+                point1.GyroX * point2.GyroX,
+                point1.GyroY * point2.GyroY,
+                point1.GyroZ * point2.GyroZ,
+                0);
+        }
+
+        public static Point operator /(Point point1, Point point2)
+        {
+            return new Point(
+                point1.AccelerationX / point2.AccelerationX,
+                point1.AccelerationY / point2.AccelerationY,
+                point1.AccelerationZ / point2.AccelerationZ,
+                point1.GyroX / point2.GyroX,
+                point1.GyroY / point2.GyroY,
+                point1.GyroZ / point2.GyroZ,
+                point1.Timestamp);
+        }
+
+        public static Point operator /(Point point1, int n)
+        {
+            return new Point(
+                point1.AccelerationX / n,
+                point1.AccelerationY / n,
+                point1.AccelerationZ / n,
+                point1.GyroX / n,
+                point1.GyroY / n,
+                point1.GyroZ / n,
+                point1.Timestamp);
+        }
     }
 }

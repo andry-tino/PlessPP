@@ -7,7 +7,6 @@ namespace PLessPP.AI
     using System;
 
     using PLessPP.Data;
-    using Similarity.Data;
 
     /// <summary>
     /// 
