@@ -45,6 +45,7 @@ namespace PowerPointController
 
             // Set up socket
             var endpoint = new IPEndPoint(IPAddress.Loopback, 7039);
+            double previousValue = 0;
 
             while (true)
             {
@@ -58,15 +59,22 @@ namespace PowerPointController
                     while (connection.Connected)
                     {
                         var command = reader.ReadLine();
-                        Console.WriteLine($"Received command {command}");
-                        // deserialize
+                        //Console.WriteLine($"Received command {command}");
+                        
+                        // now to """deserialize""" the data
                         var data = command.Split(',');
 
-                        Microsoft.Office.Interop.PowerPoint.SlideShowWindows slideShowWindows =
-                                powerPoint.SlideShowWindows;
-                        if (slideShowWindows.Count < 1) continue;
-                        Microsoft.Office.Interop.PowerPoint.SlideShowWindow slideShowWindow = slideShowWindows[1];
-                        slideShowWindow.View.Next();
+                        double value = Double.Parse(data[0]);
+                        if (value > 2 && previousValue < 2)
+                        {
+                            Microsoft.Office.Interop.PowerPoint.SlideShowWindows slideShowWindows =
+                                    powerPoint.SlideShowWindows;
+                            if (slideShowWindows.Count < 1) continue;
+                            Microsoft.Office.Interop.PowerPoint.SlideShowWindow slideShowWindow = slideShowWindows[1];
+                            slideShowWindow.View.Next();
+                        }
+
+                        previousValue = value;
                     }
 
                     server.Stop();

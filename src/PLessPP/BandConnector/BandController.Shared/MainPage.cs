@@ -125,10 +125,7 @@ namespace BandController
 
             if ( (Math.Ceiling(averageAccX) % 1000 == 2) && ((DateTime.Now - this.lastTimeOfWrite).Seconds > 1) )
             {
-                var streamWriter = new StreamWriter(this.client.OutputStream.AsStreamForWrite());
-                streamWriter.WriteLine();
-                streamWriter.Flush();
-
+                // todo remove this
                 await bandClient.NotificationManager.VibrateAsync(VibrationType.TwoToneHigh);
             }
         }
@@ -141,15 +138,28 @@ namespace BandController
             // Add data to the array
             lock (this.dataPoints)
             {
+                var datapoint = new DataPoint(reading.AccelerationX, reading.AccelerationY, reading.AccelerationZ, reading.AngularVelocityX,
+                    reading.AngularVelocityY, reading.AngularVelocityZ, reading.Timestamp.Ticks);
                 // Add new data
-                this.dataPoints.Enqueue(new DataPoint(reading.AccelerationX, reading.AccelerationY, reading.AccelerationZ, reading.AngularVelocityX,
-                    reading.AngularVelocityY, reading.AngularVelocityZ, reading.Timestamp.Ticks));
+                this.dataPoints.Enqueue(datapoint);
 
                 // Throw out old data
                 if(this.dataPoints.Count > ItemsInChunk)
                 {
                     DataPoint toChug;
                     this.dataPoints.TryDequeue(out toChug);
+                }
+
+                // send data to win32 land
+                try
+                {
+                    var streamWriter = new StreamWriter(this.client.OutputStream.AsStreamForWrite());
+                    streamWriter.WriteLine(datapoint);
+                    streamWriter.Flush();
+                }
+                catch
+                {
+                    // todo: probably the stream died we should let the user know
                 }
             }
 
