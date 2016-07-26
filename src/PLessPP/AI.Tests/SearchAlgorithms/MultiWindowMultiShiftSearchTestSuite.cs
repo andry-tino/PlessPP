@@ -19,13 +19,16 @@ namespace PLessPP.Testing
     /// 
     /// Legend:
     /// Name is as follows: Scenario_<tester-type>_<hand>_<matching-config>_<distance-algo>_<search-algo>_<decider>_<windows-num>_<shift>
-    /// - tester-type:      D  = Developer or name
-    /// - hand:             Sx = Left
-    ///                     Rx = Right
-    /// - matching-config:  P  = Positive
-    ///                     N  = Negative
-    /// - distance-algo:    A  = Plain absolute difference
-    ///                     E  = Euclidean (not squared)
+    /// - tester-type:      D    = Developer or name
+    /// - hand:             Sx   = Left
+    ///                     Rx   = Right
+    /// - matching-config:  P    = Positive
+    ///                     N    = Negative
+    ///                     Might uae syntax <sequence>_<baseline>
+    /// - distance-algo:    A    = Plain absolute difference
+    ///                     E    = Euclidean (not squared)
+    /// - search-algo:      MWMS = Multi Window Multi Shift
+    /// - decider:          
     /// </summary>
     [TestClass]
     public class MultiWindowMultiShiftSearchTestSuite
@@ -41,7 +44,7 @@ namespace PLessPP.Testing
         /// Shift: 1 point.
         /// </summary>
         [TestMethod]
-        public void Scenario_Andrea_Sx_NPN_A_MWMS_MWMST_1_1()
+        public void Scenario_Andrea_Sx_NP1N_P1_A_MWMS_MWMST_1_1()
         {
             bool matchFound = GetMultiWindowMultiShiftSearchDecidedResult(
                 TestObjectsProvider.SampleDataAndreaPositive1,
