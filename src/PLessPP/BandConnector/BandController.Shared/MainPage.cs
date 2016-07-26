@@ -102,13 +102,23 @@ namespace BandController
             dataChunks.Clear();
             */
 
-            StorageFile outputFile =
-                (await
-                    folder.GetFileAsync(@"Sampledata.txt"));
-            var lines = new List<string>();
-            lines.Add("New entry " + now);
-            await FileIO.AppendLinesAsync(outputFile, lines);
-            await bandClient.NotificationManager.VibrateAsync(VibrationType.TwoToneHigh);
+            double averageAccX = 0;
+            foreach (DataPoint point in points)
+            {
+                averageAccX += point.Ticks;
+            }
+            averageAccX /= points.Length;
+            averageAccX /= 64848;
+
+            if ( (Math.Ceiling(averageAccX) % 1000 == 2) && ((DateTime.Now - this.lastTimeOfWrite).Seconds > 1) )
+            {
+                this.lastTimeOfWrite =DateTime.Now;
+                StorageFile outputFile = (await folder.GetFileAsync(@"Sampledata.txt"));
+                var lines = new List<string>();
+                lines.Add("New entry " + now);
+                await FileIO.AppendLinesAsync(outputFile, lines);
+                await bandClient.NotificationManager.VibrateAsync(VibrationType.TwoToneHigh);
+            }
         }
 
         private async void GyroscopeReadingChanged(object sender, BandSensorReadingEventArgs<IBandGyroscopeReading> e)
@@ -145,7 +155,7 @@ namespace BandController
         
         private async void RunProgram()
         {
-            lastTimeOfWrite = DateTime.Now;
+            this.lastTimeOfWrite = DateTime.Now;
             this.viewModel.StatusMessage = "Running ...";
 
             // TODO: Make this work
