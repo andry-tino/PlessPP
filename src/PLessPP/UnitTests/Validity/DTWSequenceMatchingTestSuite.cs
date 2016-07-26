@@ -49,6 +49,23 @@ namespace PLessPP.Testing
 
         /// <summary>
         /// Two different developers.
+        /// Two negative sequences.
+        /// Left hand.
+        /// Euclidean distance.
+        /// </summary>
+        [TestMethod]
+        public void Scenario_D1xD2_Sx_NxN_E()
+        {
+            double similarity = GetDistance(
+                TestObjectsProvider.SampleDataNegativeDev1FilePath,
+                TestObjectsProvider.SampleDataNegativeDev2FilePath,
+                new EuclideanPointDistanceCalculator());
+
+            Assert.AreNotEqual(0, similarity, "Two negative sequences from different testers should not give zero similarity!");
+        }
+
+        /// <summary>
+        /// Two different developers.
         /// One negative sequence.
         /// One positive sequence.
         /// Left hand.
@@ -56,6 +73,24 @@ namespace PLessPP.Testing
         /// </summary>
         [TestMethod]
         public void Scenario_D1xD2_Sx_NxP_A()
+        {
+            double similarity = GetDistance(
+                TestObjectsProvider.SampleDataNegativeDev1FilePath,
+                TestObjectsProvider.SampleDataPositiveDev31FilePath,
+                new AbsoluteDifferencePointDistanceCalculator());
+
+            Assert.AreNotEqual(0, similarity, "Two negative sequences from different testers should not give zero similarity!");
+        }
+
+        /// <summary>
+        /// Two different developers.
+        /// One negative sequence.
+        /// One positive sequence.
+        /// Left hand.
+        /// Euclidean distance.
+        /// </summary>
+        [TestMethod]
+        public void Scenario_D1xD2_Sx_NxP_E()
         {
             double similarity = GetDistance(
                 TestObjectsProvider.SampleDataNegativeDev1FilePath,
@@ -83,6 +118,23 @@ namespace PLessPP.Testing
         }
 
         /// <summary>
+        /// One developer.
+        /// Two positive sequences.
+        /// Left hand.
+        /// Euclidean distance.
+        /// </summary>
+        [TestMethod]
+        public void Scenario_D1_Sx_PxP_E()
+        {
+            double similarity = GetDistance(
+                TestObjectsProvider.SampleDataPositiveDev31FilePath,
+                TestObjectsProvider.SampleDataPositiveDev32FilePath,
+                new AbsoluteDifferencePointDistanceCalculator());
+
+            Assert.AreNotEqual(0, similarity, "Two negative sequences from different testers should not give zero similarity!");
+        }
+
+        /// <summary>
         /// Two different developers.
         /// Two positive sequences.
         /// Left hand.
@@ -93,6 +145,23 @@ namespace PLessPP.Testing
         {
             double similarity = GetDistance(
                 TestObjectsProvider.SampleDataPositiveDev4FilePath, 
+                TestObjectsProvider.SampleDataPositiveDev5FilePath,
+                new AbsoluteDifferencePointDistanceCalculator());
+
+            Assert.AreNotEqual(0, similarity, "Two negative sequences from different testers should not give zero similarity!");
+        }
+
+        /// <summary>
+        /// Two different developers.
+        /// Two positive sequences.
+        /// Left hand.
+        /// Euclidean distance.
+        /// </summary>
+        [TestMethod]
+        public void Scenario_D1xD2_Sx_PxP_E()
+        {
+            double similarity = GetDistance(
+                TestObjectsProvider.SampleDataPositiveDev4FilePath,
                 TestObjectsProvider.SampleDataPositiveDev5FilePath,
                 new AbsoluteDifferencePointDistanceCalculator());
 
