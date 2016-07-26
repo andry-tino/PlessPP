@@ -40,9 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChunkConsumer.cs" />
     <Compile Include="IChunkBuffer.cs" />
     <Compile Include="ISequenceSearcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SequenceSearch\MultiWindowMultiShiftResults.cs" />
     <Compile Include="SequenceSearch\MultiWindowMultiShiftSearch.cs" />
   </ItemGroup>
   <ItemGroup>
