@@ -68,9 +68,9 @@ namespace PLessPP.AI
 
                     double similarity = this.similarityAlgorithm.ComputeSimilarity(this.baseline, windowedSequence);
 
-                    // Normalizing the similarity by the max of the two sequences' lengths
+                    // Normalizing the similarity by the sum of the two sequences' lengths
                     // Attention: this normalization is not the same as normalizing the sequences as we act, here, on the y axis
-                    double maxSequenceLength = Math.Max((double)this.baseline.Length, (double)windowedSequence.Length);
+                    double maxSequenceLength = this.baseline.Length + windowedSequence.Length - 1; // TODO: WTF is -1 needed for?
                     similarity = similarity / maxSequenceLength;
 
                     mwmsResults.AddDistanceToWindow(k, similarity);
