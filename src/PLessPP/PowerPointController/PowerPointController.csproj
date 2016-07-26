@@ -43,6 +43,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChunkProcessor.cs" />
     <Compile Include="DataPoint.cs" />
     <Compile Include="PowerPointController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
