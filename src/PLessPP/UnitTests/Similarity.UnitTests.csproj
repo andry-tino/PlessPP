@@ -79,6 +79,9 @@
     <None Include="Validity\TestObjects\SampleData_Negative_Dev2.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Validity\TestObjects\SampleData_Positive_Andrea_2.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Validity\TestObjects\SampleData_Positive_Dev3_1.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -89,6 +92,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Validity\TestObjects\SampleData_Positive_Dev5.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Validity\TestObjects\SampleData_Positive_Liansheng_2.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

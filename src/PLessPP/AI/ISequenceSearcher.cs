@@ -18,7 +18,7 @@ namespace PLessPP.AI
         /// Searches a particular sequence inside another one.
         /// </summary>
         /// <param name="sequence">The <see cref="Sequence"/> to search into.</param>
-        /// <param name="result"></param>
-        void Search(Sequence sequence, out int results); // not int, we need to create a class for this
+        /// <param name="results"></param>
+        void Search(Sequence sequence, out object results);
     }
 }
