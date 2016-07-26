@@ -62,11 +62,12 @@ namespace PowerPointController
 
                     // Start chunk processing worker task
                     Task task = Task.Run(() =>
-                    {
+                    { 
                         while (connection.Connected)
                         {
                             DataPoint[] pointsClone = processor.GetCurrentChunk();
-                            if (processor.ProcessChunk(pointsClone))
+                            bool correctGesture = processor.ProcessChunk(pointsClone);
+                            if (correctGesture)
                             {
                                 Microsoft.Office.Interop.PowerPoint.SlideShowWindows slideShowWindows =
                                     powerPoint.SlideShowWindows;
@@ -79,6 +80,8 @@ namespace PowerPointController
                                 // notify band to vibrate
                                 writer.WriteLine("buzz");
                                 writer.Flush();
+
+                                Console.WriteLine("We have a gesture!");
                             }
                         }
                     });
@@ -108,6 +111,7 @@ namespace PowerPointController
                         catch
                         {
                             // invalid data - discard
+                            Console.WriteLine("Received badly formatted data");
                             continue;
                         }
                     }
