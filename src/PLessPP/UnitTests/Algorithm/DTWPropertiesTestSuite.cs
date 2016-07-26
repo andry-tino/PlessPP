@@ -9,7 +9,6 @@ namespace PLessPP.Testing
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using PLessPP.Data;
-    using PLessPP.Similarity.Data;
     using PLessPP.Similarity;
 
     /// <summary>
@@ -18,15 +17,16 @@ namespace PLessPP.Testing
     [TestClass]
     public class DTWPropertiesTestSuite
     {
+        private INormalizer normalizer = new SimpleNormalizer();
         [TestMethod]
         public void SimilarityIsPositiveNumber()
         {
-            Sequence sequence1 = new Sequence(
+            Sequence sequence1 = new Sequence(normalizer,
                 Utils.BuildPoint(1),
                 Utils.BuildPoint(2),
                 Utils.BuildPoint(3),
                 Utils.BuildPoint(4));
-            Sequence sequence2 = new Sequence(
+            Sequence sequence2 = new Sequence(normalizer,
                 Utils.BuildPoint(5),
                 Utils.BuildPoint(6),
                 Utils.BuildPoint(7),
@@ -45,12 +45,12 @@ namespace PLessPP.Testing
         [TestMethod]
         public void SimilarityIsComutative()
         {
-            Sequence sequence1 = new Sequence(
+            Sequence sequence1 = new Sequence(normalizer,
                 Utils.BuildPoint(1),
                 Utils.BuildPoint(2),
                 Utils.BuildPoint(3),
                 Utils.BuildPoint(4));
-            Sequence sequence2 = new Sequence(
+            Sequence sequence2 = new Sequence(normalizer,
                 Utils.BuildPoint(5),
                 Utils.BuildPoint(6),
                 Utils.BuildPoint(7),

@@ -2,11 +2,11 @@
 /// IDataConnector.cs
 /// </summary>
 
+using PLessPP.Data;
+
 namespace PLessPP.Testing.Testability.Data
 {
     using System;
-
-    using PLessPP.Similarity.Data;
 
     /// <summary>
     /// 

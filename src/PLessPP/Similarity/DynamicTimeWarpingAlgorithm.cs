@@ -6,9 +6,7 @@ namespace PLessPP.Similarity
 {
     using System;
     using System.Linq;
-
     using PLessPP.Data;
-    using PLessPP.Similarity.Data;
 
     /// <summary>
     /// 

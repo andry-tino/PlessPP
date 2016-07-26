@@ -43,8 +43,11 @@
     <Compile Include="Distance\AbsoluteDifferencePointDistanceCalculator.cs" />
     <Compile Include="Distance\EuclideanPointDistanceCalculator.cs" />
     <Compile Include="Distance\IPointDistanceCalculator.cs" />
+    <Compile Include="Normalization\INormalizer.cs" />
+    <Compile Include="Normalization\SimpleNormalizer.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sequence.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
