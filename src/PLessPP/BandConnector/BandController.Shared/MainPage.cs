@@ -200,12 +200,22 @@ namespace BandController
                 // Subscribe to Gyroscope data.
                 bandClient.SensorManager.Gyroscope.ReadingChanged += this.GyroscopeReadingChanged;
                 
-                Task task = Task.Run(() =>
+                /*Task task = Task.Run(() =>
                 {
                     while (true)
                     {
                         DataPoint[] pointsClone = this.GetCurrentChunk();
                         this.ProcessData(pointsClone);
+                    }
+                });*/
+
+                Task task2 = Task.Run(async () =>
+                {
+                    var streamReader = new StreamReader(this.client.InputStream.AsStreamForRead());
+                    while (true)
+                    {
+                        await streamReader.ReadLineAsync();
+                        await bandClient.NotificationManager.VibrateAsync(VibrationType.TwoToneHigh);
                     }
                 });
 

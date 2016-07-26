@@ -55,6 +55,7 @@ namespace PowerPointController
                     server.Start();
                     var connection = server.AcceptTcpClient();
                     var reader = new StreamReader(connection.GetStream());
+                    var writer = new StreamWriter(connection.GetStream());
 
                     while (connection.Connected)
                     {
@@ -63,6 +64,24 @@ namespace PowerPointController
                         
                         // now to """deserialize""" the data
                         var data = command.Split(',');
+                        DataPoint datapoint;
+                        try
+                        {
+                            datapoint = new DataPoint(
+                                Double.Parse(data[0]),
+                                Double.Parse(data[1]),
+                                Double.Parse(data[2]),
+                                Double.Parse(data[3]),
+                                Double.Parse(data[4]),
+                                Double.Parse(data[5]),
+                                Int64.Parse(data[6])
+                            );
+                        }
+                        catch
+                        {
+                            // invalid data - discard
+                            continue;
+                        }
 
                         double value = Double.Parse(data[0]);
                         if (value > 2 && previousValue < 2)
@@ -72,6 +91,8 @@ namespace PowerPointController
                             if (slideShowWindows.Count < 1) continue;
                             Microsoft.Office.Interop.PowerPoint.SlideShowWindow slideShowWindow = slideShowWindows[1];
                             slideShowWindow.View.Next();
+                            writer.WriteLine("buzz");
+                            writer.Flush();
                         }
 
                         previousValue = value;
