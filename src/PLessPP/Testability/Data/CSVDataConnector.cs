@@ -8,7 +8,6 @@ namespace PLessPP.Testing.Testability.Data
     using System.IO;
 
     using PLessPP.Data;
-    using PLessPP.Similarity.Data;
 
     /// <summary>
     /// 
@@ -19,6 +18,8 @@ namespace PLessPP.Testing.Testability.Data
 
         private Sequence sequence;
         private string filePath;
+
+        private INormalizer normalizer = new SimpleNormalizer();
 
         /// <summary>
         /// 
@@ -79,11 +80,11 @@ namespace PLessPP.Testing.Testability.Data
                     GyroX           = double.Parse(numbers[3]),
                     GyroY           = double.Parse(numbers[4]),
                     GyroZ           = double.Parse(numbers[5]),
-                    Timestamp       = System.UInt64.Parse(numbers[6])
+                    Timestamp       = long.Parse(numbers[6])
                 };
             }
 
-            this.sequence = new Sequence(values);
+            this.sequence = new Sequence(normalizer, values);
         }
     }
 }

@@ -12,6 +12,5 @@
             <TextBlock TextWrapping="Wrap" Text="{Binding StatusMessage}" FontSize="20"/>
         </ScrollViewer>
         <TextBox x:Name="gyroscopeTextBox" HorizontalAlignment="Left" Margin="107,99,0,0" TextWrapping="Wrap" Text="GyroscopeTextBox" VerticalAlignment="Top" Width="443"/>
-
     </Grid>
 </Page>

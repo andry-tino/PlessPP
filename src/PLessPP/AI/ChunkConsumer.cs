@@ -4,10 +4,7 @@
 
 namespace PLessPP.AI
 {
-    using System;
-
     using PLessPP.Data;
-    using PLessPP.Similarity.Data;
 
     /// <summary>
     /// This class is responsible for continuosly read the buffer and react to positives.
@@ -17,17 +14,19 @@ namespace PLessPP.AI
         private readonly ISequenceSearcher searchAlgorithm;
         private readonly ISearchDecider searchDecider;
         private readonly IChunkBuffer chunkBuffer;
+        private readonly INormalizer normalizer;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="searchAlgorithm"></param>
         /// <param name="chunkBuffer"></param>
-        public ChunkConsumer(ISequenceSearcher searchAlgorithm, ISearchDecider searchDecider, IChunkBuffer chunkBuffer)
+        public ChunkConsumer(ISequenceSearcher searchAlgorithm, ISearchDecider searchDecider, IChunkBuffer chunkBuffer, INormalizer normalizer)
         {
             this.searchAlgorithm = searchAlgorithm;
             this.searchDecider = searchDecider;
             this.chunkBuffer = chunkBuffer;
+            this.normalizer = normalizer;
         }
 
         /// <summary>
@@ -47,7 +46,7 @@ namespace PLessPP.AI
                 }
 
                 object results;
-                this.searchAlgorithm.Search(new Sequence(chunk), out results);
+                this.searchAlgorithm.Search(new Sequence(normalizer, chunk), out results);
 
                 bool matchFound = this.searchDecider.MatchFound(results);
 

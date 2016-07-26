@@ -11,7 +11,6 @@ namespace PLessPP.Testing
     using PLessPP.AI;
     using PLessPP.Data;
     using PLessPP.Similarity;
-    using PLessPP.Similarity.Data;
     using PLessPP.Testing.AI.SearchAlgorithms.TestObjects;
     using PLessPP.Testing.Testability.Data;
 

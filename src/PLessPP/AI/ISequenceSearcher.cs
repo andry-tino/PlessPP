@@ -5,9 +5,7 @@
 namespace PLessPP.AI
 {
     using System;
-
     using PLessPP.Data;
-    using PLessPP.Similarity.Data;
 
     /// <summary>
     /// 

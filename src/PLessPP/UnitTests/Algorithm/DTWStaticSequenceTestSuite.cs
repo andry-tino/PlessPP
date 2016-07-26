@@ -9,7 +9,6 @@ namespace PLessPP.Testing
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using PLessPP.Data;
-    using PLessPP.Similarity.Data;
     using PLessPP.Similarity;
 
     /// <summary>
@@ -18,6 +17,8 @@ namespace PLessPP.Testing
     [TestClass]
     public class DTWStaticSequenceTestSuite
     {
+        private INormalizer normalizer = new SimpleNormalizer();
+
         [TestMethod]
         public void EqualSmallSequences()
         {
@@ -27,8 +28,8 @@ namespace PLessPP.Testing
                 Utils.BuildPoint(3),
                 Utils.BuildPoint(4) };
 
-            Sequence sequence1 = new Sequence(values);
-            Sequence sequence2 = new Sequence(values);
+            Sequence sequence1 = new Sequence(normalizer, values);
+            Sequence sequence2 = new Sequence(normalizer, values);
 
             ISimilarityAlgorithm dtwAlgorithm = new DynamicTimeWarpingAlgorithm(
                 new AbsoluteDifferencePointDistanceCalculator());
@@ -41,12 +42,12 @@ namespace PLessPP.Testing
         [TestMethod]
         public void DifferentSmallSequences()
         {
-            Sequence sequence1 = new Sequence(
+            Sequence sequence1 = new Sequence(normalizer,
                 Utils.BuildPoint(1),
                 Utils.BuildPoint(2),
                 Utils.BuildPoint(3),
                 Utils.BuildPoint(4));
-            Sequence sequence2 = new Sequence(
+            Sequence sequence2 = new Sequence(normalizer,
                 Utils.BuildPoint(5),
                 Utils.BuildPoint(6),
                 Utils.BuildPoint(7),
@@ -69,8 +70,8 @@ namespace PLessPP.Testing
                 values[i] = Utils.BuildPoint(i);
             }
 
-            Sequence sequence1 = new Sequence(values);
-            Sequence sequence2 = new Sequence(values);
+            Sequence sequence1 = new Sequence(normalizer, values);
+            Sequence sequence2 = new Sequence(normalizer, values);
 
             ISimilarityAlgorithm dtwAlgorithm = new DynamicTimeWarpingAlgorithm(
                 new AbsoluteDifferencePointDistanceCalculator());
@@ -95,8 +96,8 @@ namespace PLessPP.Testing
                 values2[i] = Utils.BuildPoint(i + values1.Length);
             }
 
-            Sequence sequence1 = new Sequence(values1);
-            Sequence sequence2 = new Sequence(values2);
+            Sequence sequence1 = new Sequence(normalizer, values1);
+            Sequence sequence2 = new Sequence(normalizer, values2);
 
             ISimilarityAlgorithm dtwAlgorithm = new DynamicTimeWarpingAlgorithm(
                 new AbsoluteDifferencePointDistanceCalculator());

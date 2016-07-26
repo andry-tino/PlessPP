@@ -5,8 +5,7 @@
 namespace PLessPP.Similarity
 {
     using System;
-    
-    using PLessPP.Similarity.Data;
+    using PLessPP.Data;
 
     /// <summary>
     /// 
