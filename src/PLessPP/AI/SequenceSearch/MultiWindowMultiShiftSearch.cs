@@ -18,6 +18,7 @@ namespace PLessPP.AI
         private readonly int[] windowSizes;
         private readonly Sequence baseline;
         private readonly ISimilarityAlgorithm similarityAlgorithm;
+        private readonly bool normalize;
 
         /// <summary>
         /// 
@@ -26,14 +27,17 @@ namespace PLessPP.AI
         /// <param name="windowSizes"></param>
         /// <param name="baseline"></param>
         /// <param name="similarityAlgorithm"></param>
-        public MultiWindowMultiShiftSearch(int shift, int[] windowSizes, Sequence baseline, ISimilarityAlgorithm similarityAlgorithm)
+        /// <param name="normalize"></param>
+        public MultiWindowMultiShiftSearch(int shift, int[] windowSizes, Sequence baseline, ISimilarityAlgorithm similarityAlgorithm, bool normalize = false)
         {
             // TODO: Add checks
 
             this.shift = shift;
             this.windowSizes = windowSizes;
-            this.baseline = baseline;
             this.similarityAlgorithm = similarityAlgorithm;
+
+            this.baseline = normalize ? baseline.Normalize() : baseline;
+            this.normalize = normalize;
         }
 
         /// <summary>
@@ -56,6 +60,10 @@ namespace PLessPP.AI
                     int lastIndex = i + windowSize - 1;
 
                     Sequence windowedSequence = sequence[i, lastIndex];
+                    if (this.normalize)
+                    {
+                        windowedSequence = windowedSequence.Normalize();
+                    }
 
                     double similarity = this.similarityAlgorithm.ComputeSimilarity(this.baseline, windowedSequence);
                     mwmsResults.AddDistanceToWindow(k, similarity);
