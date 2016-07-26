@@ -28,7 +28,8 @@ namespace PLessPP.AI
         /// <param name="baseline"></param>
         /// <param name="similarityAlgorithm"></param>
         /// <param name="normalize"></param>
-        public MultiWindowMultiShiftSearch(int shift, int[] windowSizes, Sequence baseline, ISimilarityAlgorithm similarityAlgorithm, bool normalize = false)
+        public MultiWindowMultiShiftSearch(int shift, int[] windowSizes, Sequence baseline, 
+            ISimilarityAlgorithm similarityAlgorithm, bool normalize = false)
         {
             // TODO: Add checks
 
@@ -66,6 +67,12 @@ namespace PLessPP.AI
                     }
 
                     double similarity = this.similarityAlgorithm.ComputeSimilarity(this.baseline, windowedSequence);
+
+                    // Normalizing the similarity by the max of the two sequences' lengths
+                    // Attention: this normalization is not the same as normalizing the sequences as we act, here, on the y axis
+                    double maxSequenceLength = Math.Max((double)this.baseline.Length, (double)windowedSequence.Length);
+                    similarity = similarity / maxSequenceLength;
+
                     mwmsResults.AddDistanceToWindow(k, similarity);
                 }
             }
