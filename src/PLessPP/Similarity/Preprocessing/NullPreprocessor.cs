@@ -1,24 +1,26 @@
 ﻿/// <summary>
-/// ISimilarityAlgorithm.cs
+/// NullPreprocessor.cs
 /// </summary>
 
 namespace PLessPP.Similarity
 {
     using System;
-    
+
     using PLessPP.Similarity.Data;
 
     /// <summary>
     /// 
     /// </summary>
-    public interface ISimilarityAlgorithm
+    public class NullPreprocessor : IPreprocessor
     {
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="sequence1"></param>
-        /// <param name="sequence2"></param>
+        /// <param name="sequence"></param>
         /// <returns></returns>
-        double ComputeSimilarity(Sequence sequence1, Sequence sequence2);
+        public Sequence Preprocess(Sequence sequence)
+        {
+            return sequence;
+        }
     }
 }
