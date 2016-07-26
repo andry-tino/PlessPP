@@ -84,7 +84,7 @@ namespace PLessPP.Testing.Testability.Data
                 };
             }
 
-            this.sequence = new Sequence(normalizer, values);
+            this.sequence = new Sequence(this.normalizer, values);
         }
     }
 }
