@@ -49,6 +49,27 @@ namespace PLessPP.Similarity.Data
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="index1"></param>
+        /// <param name="index2"></param>
+        /// <returns></returns>
+        public Sequence this[int index1, int index2]
+        {
+            get
+            {
+                List<Point> points = new List<Point>();
+
+                for (int i = index1; i <= index2; i++)
+                {
+                    points.Add(this.sequence.ElementAt(i));
+                }
+
+                return new Sequence(points.ToArray());
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public int Length
         {
             get { return this.sequence.Count(); }
