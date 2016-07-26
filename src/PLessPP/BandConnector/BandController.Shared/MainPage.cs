@@ -19,10 +19,8 @@
 using Microsoft.Band;
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using Windows.Storage;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
 using Microsoft.Band.Notifications;
 using Microsoft.Band.Sensors;
 
@@ -34,7 +32,7 @@ namespace BandController
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    partial class MainPage
+    public sealed partial class MainPage
     {
         private const int SecondsOfData = 4;
         private const int ItemsPerSecond = 64;
@@ -46,14 +44,14 @@ namespace BandController
 
         private IBandClient bandClient;
 
-        class DataPoint
+        public class DataPoint
         {
-            public double AcceleartionX { get; }
-            public double AcceleartionY { get; }
-            public double AcceleartionZ { get; }
-            public double AngularVelocityX { get; }
-            public double AngularVelocityY { get; }
-            public double AngularVelocityZ { get; }
+            private double AcceleartionX { get; }
+            private double AcceleartionY { get; }
+            private double AcceleartionZ { get; }
+            private double AngularVelocityX { get; }
+            private double AngularVelocityY { get; }
+            private double AngularVelocityZ { get; }
             public long Ticks { get; }
 
             public DataPoint(double acceleartionX,
@@ -82,11 +80,24 @@ namespace BandController
 
         private readonly ConcurrentQueue<DataPoint> dataPoints = new ConcurrentQueue<DataPoint>();
 
-        // process data funciton
-        async void ProcessData(DataPoint[] points)
+        public DataPoint[] GetCurrentChunk()
+        {
+            lock (this.dataPoints)
+            {
+                return this.dataPoints.ToArray();
+            }
+        }
+
+        /// <summary>
+        ///     TODO get from Andrea
+        /// </summary>
+        /// <param name="points"></param>
+        private async void ProcessData(DataPoint[] points)
         {
             StorageFolder folder = ApplicationData.Current.LocalFolder;
             var now = DateTime.Now;
+
+            // This commented code is for when you want to write sample data to a file
             /*
             StorageFile outputFile =
                 (await
@@ -157,10 +168,7 @@ namespace BandController
         {
             this.lastTimeOfWrite = DateTime.Now;
             this.viewModel.StatusMessage = "Running ...";
-
-            // TODO: Make this work
-            // GetPowerPoint();
-
+            
             try
             {
                 // Get the list of Microsoft Bands paired to the phone.
@@ -177,18 +185,12 @@ namespace BandController
                 int samplesReceived = 0; // the number of Gyroscope samples received
                 // Subscribe to Gyroscope data.
                 bandClient.SensorManager.Gyroscope.ReadingChanged += this.GyroscopeReadingChanged;
-
-                int[] demoData = {0, 1, 2, 3, 4, 3, 4, 5, 6, 7, 8, 4, 3};
-
+                
                 Task task = Task.Run(() =>
                 {
                     while (true)
                     {
-                        DataPoint[] pointsClone;
-                        lock (this.dataPoints)
-                        {
-                            pointsClone = this.dataPoints.ToArray();
-                        }
+                        DataPoint[] pointsClone = this.GetCurrentChunk();
                         this.ProcessData(pointsClone);
                     }
                 });
