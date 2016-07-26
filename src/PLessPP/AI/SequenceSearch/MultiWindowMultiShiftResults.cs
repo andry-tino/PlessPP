@@ -64,5 +64,40 @@ namespace PLessPP.AI
         {
             return this.GetEnumerator();
         }
+
+        /// <summary>
+        /// Outputs a string representation of the results.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            const string openBracket = "{";
+            const string closeBracket = "}";
+            const string separator = ",";
+
+            string output = string.Empty;
+
+            output += openBracket;
+
+            foreach (var window in this.results)
+            {
+                output += openBracket;
+
+                foreach (var value in window)
+                {
+                    output += value.ToString();
+                    output += separator;
+                }
+
+                output += closeBracket;
+                output += separator;
+            }
+
+            output += closeBracket;
+
+            output = output.Replace(string.Format("{0}{1}", separator, closeBracket), closeBracket);
+
+            return output;
+        }
     }
 }
