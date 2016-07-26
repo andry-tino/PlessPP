@@ -6,6 +6,10 @@
 namespace PowerPointController
 {
     using System;
+    using System.IO;
+    using System.Net;
+    using System.Net.Sockets;
+    using System.Threading;
 
     public class PowerPointController
     {
@@ -38,26 +42,34 @@ namespace PowerPointController
         public static void ControlPowerPoint(Microsoft.Office.Interop.PowerPoint.Application powerPoint)
         {
             Console.WriteLine("Controlling the PowerPoint Presentation");
-            DateTime lastModified = DateTime.Now;
+
+            // Set up socket
+            var endpoint = new IPEndPoint(IPAddress.Loopback, 7039);
+
             while (true)
             {
                 try
                 {
-                    // Get the last date the file had been modified
-                    DateTime lastFileModified =
-                        System.IO.File.GetLastWriteTime(
-                            @"C:\Users\codaniil\AppData\Local\Packages\c03ebf1a-2dcc-40e3-9140-ec15b2f5c21d_ph1m9x8skttmg\LocalState\Sampledata.txt");
+                    var server = new TcpListener(endpoint);
+                    server.Start();
+                    var connection = server.AcceptTcpClient();
+                    var reader = new StreamReader(connection.GetStream());
 
-                    // If the file has been changed more recently, then change the slide
-                    if ((lastFileModified - lastModified).Seconds >=1)
+                    while (connection.Connected)
                     {
-                        lastModified = lastFileModified;
+                        var command = reader.ReadLine();
+                        Console.WriteLine($"Received command {command}");
+                        // deserialize
+                        var data = command.Split(',');
+
                         Microsoft.Office.Interop.PowerPoint.SlideShowWindows slideShowWindows =
-                            powerPoint.SlideShowWindows;
+                                powerPoint.SlideShowWindows;
                         if (slideShowWindows.Count < 1) continue;
                         Microsoft.Office.Interop.PowerPoint.SlideShowWindow slideShowWindow = slideShowWindows[1];
                         slideShowWindow.View.Next();
                     }
+
+                    server.Stop();
                 }
                 catch
                 {
