@@ -44,7 +44,11 @@ namespace PLessPP.Testing
         [TestInitialize]
         public void Initialize()
         {
+            // Declaring to MSTest which files to leave in the out folder
             Suite.AddOutputFile(GetCompleteLogFileName(nameof(Scenario_Andrea_Sx_NP1N_P1_A_MWMS_MWMST_1_1_100)));
+            Suite.AddOutputFile(GetCompleteLogFileName(nameof(Scenario_Andrea_Sx_NP1N_P2_A_MWMS_MWMST_1_1_100)));
+            Suite.AddOutputFile(GetCompleteLogFileName(nameof(Scenario_Andrea_Sx_NP2N_P1_A_MWMS_MWMST_1_1_100)));
+            Suite.AddOutputFile(GetCompleteLogFileName(nameof(Scenario_Andrea_Sx_NP1N_Liansheng_Sx_P_A_MWMS_MWMST_1_1_100)));
         }
 
         /// <summary>
@@ -89,15 +93,19 @@ namespace PLessPP.Testing
         /// Shift: 1 point.
         /// </summary>
         [TestMethod]
-        public void Scenario_Andrea_Sx_NP1N_P2_A_MWMS_MWMST_1_1()
+        public void Scenario_Andrea_Sx_NP1N_P2_A_MWMS_MWMST_1_1_100()
         {
-            bool matchFound = GetMultiWindowMultiShiftSearchDecidedResult(
+            object results;
+            bool matchFound = GetDTWMultiWindowMultiShiftSearchDecidedResult(
                 TestObjectsProvider.SampleDataAndreaPositive2,
                 TestObjectsProvider.SampleDataAndreaNP1N,
                 1,
                 TestObjectsProvider.SampleDataAndreaPositive2Length,
                 new AbsoluteDifferencePointDistanceCalculator(),
-                new MultiWindowMultiShiftThresholdSearchDecider(100));
+                new MultiWindowMultiShiftThresholdSearchDecider(100),
+                out results);
+
+            WriteResults(results, GetCompleteLogFileName(nameof(Scenario_Andrea_Sx_NP1N_P2_A_MWMS_MWMST_1_1_100)));
 
             Assert.AreEqual(true, matchFound, "Match expected in NPN configuration!");
         }
@@ -114,15 +122,19 @@ namespace PLessPP.Testing
         /// Shift: 1 point.
         /// </summary>
         [TestMethod]
-        public void Scenario_Andrea_Sx_NP2N_P1_A_MWMS_MWMST_1_1()
+        public void Scenario_Andrea_Sx_NP2N_P1_A_MWMS_MWMST_1_1_100()
         {
-            bool matchFound = GetMultiWindowMultiShiftSearchDecidedResult(
+            object results;
+            bool matchFound = GetDTWMultiWindowMultiShiftSearchDecidedResult(
                 TestObjectsProvider.SampleDataAndreaPositive1,
                 TestObjectsProvider.SampleDataAndreaNP2N,
                 1,
                 TestObjectsProvider.SampleDataAndreaPositive1Length,
                 new AbsoluteDifferencePointDistanceCalculator(),
-                new MultiWindowMultiShiftThresholdSearchDecider(100));
+                new MultiWindowMultiShiftThresholdSearchDecider(100),
+                out results);
+
+            WriteResults(results, GetCompleteLogFileName(nameof(Scenario_Andrea_Sx_NP2N_P1_A_MWMS_MWMST_1_1_100)));
 
             Assert.AreEqual(true, matchFound, "Match expected in NPN configuration!");
         }
@@ -138,15 +150,19 @@ namespace PLessPP.Testing
         /// Shift: 1 point.
         /// </summary>
         [TestMethod]
-        public void Scenario_Andrea_Sx_NP1N_Liansheng_Sx_P_A_MWMS_MWMST_1_1()
+        public void Scenario_Andrea_Sx_NP1N_Liansheng_Sx_P_A_MWMS_MWMST_1_1_100()
         {
-            bool matchFound = GetMultiWindowMultiShiftSearchDecidedResult(
+            object results;
+            bool matchFound = GetDTWMultiWindowMultiShiftSearchDecidedResult(
                 TestObjectsProvider.SampleDataLianshengPositive,
                 TestObjectsProvider.SampleDataAndreaNP1N,
                 1,
                 TestObjectsProvider.SampleDataLianshengPositiveLength,
                 new AbsoluteDifferencePointDistanceCalculator(),
-                new MultiWindowMultiShiftThresholdSearchDecider(100));
+                new MultiWindowMultiShiftThresholdSearchDecider(100),
+                out results);
+
+            WriteResults(results, GetCompleteLogFileName(nameof(Scenario_Andrea_Sx_NP1N_Liansheng_Sx_P_A_MWMS_MWMST_1_1_100)));
 
             Assert.AreEqual(true, matchFound, "Match expected in NPN configuration!");
         }
@@ -161,8 +177,7 @@ namespace PLessPP.Testing
             Sequence sequence = dataConnectorSequence.Data;
 
             ISequenceSearcher mwmsSearchAlgorithm = new MultiWindowMultiShiftSearch(shift, new int[] { windowLength }, baseline, new DynamicTimeWarpingAlgorithm(distanceCalculator));
-
-            object results;
+            
             mwmsSearchAlgorithm.Search(sequence, out results);
 
             bool matchFound = searchDecider.MatchFound(results);
