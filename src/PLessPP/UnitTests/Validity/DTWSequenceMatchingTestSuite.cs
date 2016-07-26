@@ -95,7 +95,7 @@ namespace PLessPP.Testing
             double similarity = GetDistance(
                 TestObjectsProvider.SampleDataNegativeDev1FilePath,
                 TestObjectsProvider.SampleDataPositiveDev31FilePath,
-                new AbsoluteDifferencePointDistanceCalculator());
+                new EuclideanPointDistanceCalculator());
 
             Assert.AreNotEqual(0, similarity, "Two negative sequences from different testers should not give zero similarity!");
         }
@@ -129,7 +129,7 @@ namespace PLessPP.Testing
             double similarity = GetDistance(
                 TestObjectsProvider.SampleDataPositiveDev31FilePath,
                 TestObjectsProvider.SampleDataPositiveDev32FilePath,
-                new AbsoluteDifferencePointDistanceCalculator());
+                new EuclideanPointDistanceCalculator());
 
             Assert.AreNotEqual(0, similarity, "Two negative sequences from different testers should not give zero similarity!");
         }
@@ -163,7 +163,7 @@ namespace PLessPP.Testing
             double similarity = GetDistance(
                 TestObjectsProvider.SampleDataPositiveDev4FilePath,
                 TestObjectsProvider.SampleDataPositiveDev5FilePath,
-                new AbsoluteDifferencePointDistanceCalculator());
+                new EuclideanPointDistanceCalculator());
 
             Assert.AreNotEqual(0, similarity, "Two negative sequences from different testers should not give zero similarity!");
         }
