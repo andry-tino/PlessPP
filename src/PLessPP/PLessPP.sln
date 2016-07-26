@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testability", "Testability\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{4173BBC5-669B-41DC-A991-5A0FBE454794}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AI", "AI\AI.csproj", "{D467B9B6-601E-4D0C-88C4-CB1C73D49FA5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{4173BBC5-669B-41DC-A991-5A0FBE454794}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4173BBC5-669B-41DC-A991-5A0FBE454794}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4173BBC5-669B-41DC-A991-5A0FBE454794}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D467B9B6-601E-4D0C-88C4-CB1C73D49FA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D467B9B6-601E-4D0C-88C4-CB1C73D49FA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D467B9B6-601E-4D0C-88C4-CB1C73D49FA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D467B9B6-601E-4D0C-88C4-CB1C73D49FA5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
