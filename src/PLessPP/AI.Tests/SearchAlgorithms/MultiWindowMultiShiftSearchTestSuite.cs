@@ -132,13 +132,13 @@ namespace PLessPP.Testing
         }
 
         private static bool GetMultiWindowMultiShiftSearchDecidedResult(string baselineFile, string sequenceFile, int shift, int windowLength, 
-            IPointDistanceCalculator distanceCalculator, ISearchDecider searchDecider)
+            IPointDistanceCalculator distanceCalculator, ISearchDecider searchDecider, bool normalized = false)
         {
             CSVDataConnector dataConnectorBaseline = new CSVDataConnector(baselineFile);
             CSVDataConnector dataConnectorSequence = new CSVDataConnector(sequenceFile);
 
-            Sequence baseline = dataConnectorBaseline.Data;
-            Sequence sequence = dataConnectorSequence.Data;
+            Sequence baseline = normalized ? dataConnectorBaseline.Data.Normalize() : dataConnectorBaseline.Data;
+            Sequence sequence = normalized ? dataConnectorSequence.Data.Normalize() : dataConnectorSequence.Data;
 
             ISequenceSearcher mwmsSearchAlgorithm = new MultiWindowMultiShiftSearch(shift, new int[] { windowLength }, baseline, new DynamicTimeWarpingAlgorithm(distanceCalculator));
 
