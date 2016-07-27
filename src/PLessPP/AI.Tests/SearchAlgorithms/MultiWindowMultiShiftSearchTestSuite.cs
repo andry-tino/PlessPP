@@ -11,10 +11,10 @@ namespace PLessPP.Testing
 
     using PLessPP.AI;
     using PLessPP.Data;
+    using PLessPP.Data.Connectors;
     using PLessPP.Similarity;
     using PLessPP.Testing;
     using PLessPP.Testing.AI.SearchAlgorithms.TestObjects;
-    using PLessPP.Testing.Testability.Data;
 
     /// <summary>
     /// This test suite considers a sequence of data from real sampling and compare to a baseline.

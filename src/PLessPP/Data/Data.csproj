@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connectors\CSVDataConnector.cs" />
+    <Compile Include="Connectors\IDataConnector.cs" />
     <Compile Include="Distance\AbsoluteDifferencePointDistanceCalculator.cs" />
     <Compile Include="Distance\EuclideanPointDistanceCalculator.cs" />
     <Compile Include="Distance\IPointDistanceCalculator.cs" />

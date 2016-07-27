@@ -9,8 +9,8 @@ namespace PLessPP.Testing
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using PLessPP.Data;
+    using PLessPP.Data.Connectors;
     using PLessPP.Similarity;
-    using PLessPP.Testing.Testability.Data;
     using PLessPP.Testing.Similarity.Validity.TestObjects;
 
     /// <summary>

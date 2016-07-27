@@ -2,9 +2,7 @@
 /// IDataConnector.cs
 /// </summary>
 
-using PLessPP.Data;
-
-namespace PLessPP.Testing.Testability.Data
+namespace PLessPP.Data.Connectors
 {
     using System;
 

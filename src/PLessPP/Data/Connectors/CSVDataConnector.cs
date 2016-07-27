@@ -2,12 +2,10 @@
 /// CSVDataConnector.cs
 /// </summary>
 
-namespace PLessPP.Testing.Testability.Data
+namespace PLessPP.Data.Connectors
 {
     using System;
     using System.IO;
-
-    using PLessPP.Data;
 
     /// <summary>
     /// 
