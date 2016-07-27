@@ -32,5 +32,8 @@ _PlessPP_ is for presenters and helps them delivering better presentations on st
 
 Without the bloody controller in your hand, you are free to deliver your presentation using both hands. Body language is important, sacrificing one hand is no more necessary!
 
+### Algorithm explained
+[Here](https://www.wolframcloud.com/objects/12542f59-8a80-4bf3-92a7-5bd0b5eb6321) is an overview about how we do the gesture detection.
+
 ## Code of Conduct
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
