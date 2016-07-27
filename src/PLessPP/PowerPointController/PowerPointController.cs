@@ -162,7 +162,7 @@ namespace PLessPP.PowerPointController
                 normalize);
 
             // 5. Setting decider
-            double threshold = 1.1d; // After our normalization work, we can keep this < 1
+            double threshold = 1d; // After our normalization work, we can keep this < 1
             var searchDecider = new MultiWindowMultiShiftThresholdSearchDecider(threshold);
             
             return new ChunkConsumer(searchAlgorithm, searchDecider, chunkBuffer, normalizer);

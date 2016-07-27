@@ -40,7 +40,7 @@ namespace PLessPP.AI
 
         private string SelectedBaseline
         {
-            get { return sampleDataConstantinFileName; }
+            get { return sampleDataAndreaFileName; }
         }
 
         private static string GetPath(string fileName)
