@@ -67,24 +67,10 @@ namespace PLessPP.PowerPointController
 
                     var reader = new StreamReader(connection.GetStream());
                     var writer = new StreamWriter(connection.GetStream());
-                    
-                    SimpleNormalizer normalizer = new SimpleNormalizer();
-                    Point[] p = { new Point(1, 2, 3, 4, 5, 6, 7) };
-                    Sequence goldenBaseline = new Sequence(normalizer, p);
-                    int[] windowSize = { goldenBaseline.Length };
 
-                    var searchAlgorithm = new MultiWindowMultiShiftSearch(
-                        1, 
-                        windowSize, 
-                        goldenBaseline, 
-                        new DynamicTimeWarpingAlgorithm(new AbsoluteDifferencePointDistanceCalculator()), 
-                        true);
-
-                    var searchDecider = new MultiWindowMultiShiftThresholdSearchDecider(3);
+                    // Creating the consumer and the chunk buffer
                     var chunkBuffer = new SimpleChunkBuffer();
-                    
-
-                    var processor = new ChunkConsumer(searchAlgorithm, searchDecider, chunkBuffer, normalizer);
+                    var processor = GetChunkConsumer(chunkBuffer);
                     
                     // Configure callback
                     processor.OnGesturePerformed += () =>
@@ -149,6 +135,37 @@ namespace PLessPP.PowerPointController
             }
         }
 
+        private static ChunkConsumer GetChunkConsumer(IChunkBuffer chunkBuffer)
+        {
+            // 1. Setting normalizer
+            SimpleNormalizer normalizer = new SimpleNormalizer();
+
+            // 2. Setting baseline
+            Sequence baseline = new BaselineProvider().Baseline;
+
+            // 3. Setting windows for search algorithm
+            int[] windowSize = { baseline.Length };
+
+            // 4.1. Setting shift
+            int shift = 1;
+
+            // 4.2. Setting need for normalization
+            bool normalize = true;
+
+            // 4.3. Setting search algorithm
+            var searchAlgorithm = new MultiWindowMultiShiftSearch(
+                shift,
+                windowSize,
+                baseline,
+                new DynamicTimeWarpingAlgorithm(new AbsoluteDifferencePointDistanceCalculator()),
+                normalize);
+
+            // 5. Setting decider
+            double threshold = 5d;
+            var searchDecider = new MultiWindowMultiShiftThresholdSearchDecider(threshold);
+            
+            return new ChunkConsumer(searchAlgorithm, searchDecider, chunkBuffer, normalizer);
+        }
 
         private static void Main(string[] args)
         {
