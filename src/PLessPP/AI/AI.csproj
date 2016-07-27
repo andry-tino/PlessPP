@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaselineProvider.cs" />
     <Compile Include="ChunkConsumer.cs" />
     <Compile Include="IChunkBuffer.cs" />
     <Compile Include="ISearchDecider.cs" />
