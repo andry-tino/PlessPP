@@ -43,13 +43,26 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChunkProcessor.cs" />
     <Compile Include="DataPoint.cs" />
     <Compile Include="PowerPointController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AI\AI.csproj">
+      <Project>{d467b9b6-601e-4d0c-88c4-cb1c73d49fa5}</Project>
+      <Name>AI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Project>{4173BBC5-669B-41DC-A991-5A0FBE454794}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Similarity\Similarity.csproj">
+      <Project>{81F70047-EF8E-402F-A492-BBBB3C8A7FE8}</Project>
+      <Name>Similarity</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

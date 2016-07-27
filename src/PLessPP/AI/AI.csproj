@@ -48,6 +48,7 @@
     <Compile Include="SequenceSearch\MultiWindowMultiShiftResults.cs" />
     <Compile Include="SequenceSearch\MultiWindowMultiShiftSearch.cs" />
     <Compile Include="SequenceSearch\MultiWindowMultiShiftThresholdSearchDecider.cs" />
+    <Compile Include="Buffer\SimpleChunkBuffer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj">
