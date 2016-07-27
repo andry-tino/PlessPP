@@ -5,6 +5,9 @@
 // --------------------------------------------------------------------------
 namespace PowerPointController
 {
+    using PLessPP.AI;
+    using PLessPP.Data;
+    using PLessPP.Similarity;
     using System;
     using System.IO;
     using System.Net;
@@ -58,34 +61,50 @@ namespace PowerPointController
 
                     var reader = new StreamReader(connection.GetStream());
                     var writer = new StreamWriter(connection.GetStream());
-                    var processor = new ChunkProcessor();
+                    
+                    SimpleNormalizer normalizer = new SimpleNormalizer();
+                    Point[] p = { new Point(1, 2, 3, 4, 5, 6, 7) };
+                    Sequence goldenBaseline = new Sequence(normalizer, p);
+                    int[] windowSize = { goldenBaseline.Length };
+
+                    var searchAlgorithm = new MultiWindowMultiShiftSearch(
+                        1, 
+                        windowSize, 
+                        goldenBaseline, 
+                        new DynamicTimeWarpingAlgorithm(new AbsoluteDifferencePointDistanceCalculator()), 
+                        true);
+
+                    var searchDecider = new MultiWindowMultiShiftThresholdSearchDecider(3);
+                    var chunkBuffer = new SimpleChunkBuffer();
+                    
+
+                    var processor = new ChunkConsumer(searchAlgorithm, searchDecider, chunkBuffer, normalizer);
+                    
+                    // Configure callback
+                    processor.OnGesturePerformed += () =>
+                    {
+                        Microsoft.Office.Interop.PowerPoint.SlideShowWindows slideShowWindows =
+                                    powerPoint.SlideShowWindows;
+                        if (slideShowWindows.Count < 1)
+                            return;
+
+                        Microsoft.Office.Interop.PowerPoint.SlideShowWindow slideShowWindow = slideShowWindows[1];
+                        slideShowWindow.View.Next();
+
+                        // notify band to vibrate
+                        writer.WriteLine("buzz");
+                        writer.Flush();
+
+                        Console.WriteLine("We have a gesture!");
+                    };
 
                     // Start chunk processing worker task
                     Task task = Task.Run(() =>
-                    { 
-                        while (connection.Connected)
-                        {
-                            DataPoint[] pointsClone = processor.GetCurrentChunk();
-                            bool correctGesture = processor.ProcessChunk(pointsClone);
-                            if (correctGesture)
-                            {
-                                Microsoft.Office.Interop.PowerPoint.SlideShowWindows slideShowWindows =
-                                    powerPoint.SlideShowWindows;
-                                if (slideShowWindows.Count < 1)
-                                    return;
-
-                                Microsoft.Office.Interop.PowerPoint.SlideShowWindow slideShowWindow = slideShowWindows[1];
-                                slideShowWindow.View.Next();
-
-                                // notify band to vibrate
-                                writer.WriteLine("buzz");
-                                writer.Flush();
-
-                                Console.WriteLine("We have a gesture!");
-                            }
-                        }
+                    {
+                        processor.Run();
                     });
 
+                    // use this thread to fill the buffer
                     while (connection.Connected)
                     {
                         var command = reader.ReadLine();
@@ -93,10 +112,9 @@ namespace PowerPointController
                         
                         // now to """deserialize""" the data
                         var data = command.Split(',');
-                        DataPoint datapoint;
                         try
                         {
-                            datapoint = new DataPoint(
+                            Point point = new Point(
                                 Double.Parse(data[0]),
                                 Double.Parse(data[1]),
                                 Double.Parse(data[2]),
@@ -106,7 +124,7 @@ namespace PowerPointController
                                 Int64.Parse(data[6])
                             );
 
-                            processor.EnqueueData(datapoint);
+                            chunkBuffer.EnqueueData(point);
                         }
                         catch
                         {

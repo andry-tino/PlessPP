@@ -29,6 +29,9 @@ namespace PLessPP.AI
             this.normalizer = normalizer;
         }
 
+        public delegate void GesturePerformed();
+        public GesturePerformed OnGesturePerformed;
+
         /// <summary>
         /// 
         /// </summary>
@@ -52,7 +55,7 @@ namespace PLessPP.AI
 
                 if (matchFound)
                 {
-                    // TODO: Activate the logic to react to a match being found
+                    OnGesturePerformed.Invoke();
                 }
             }
         }
