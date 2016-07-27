@@ -22,7 +22,7 @@ namespace PLessPP.PowerPointController
     /// <remarks>
     /// Current implementation uses sockets: to change into WCF.
     /// </remarks>
-    public class PowerPointController
+    public class PowerPointController : IDisposable
     {
         /// <summary>
         /// Get the running PowerPoint instance on this machine
@@ -131,6 +131,7 @@ namespace PLessPP.PowerPointController
                 }
                 catch
                 {
+                    // TODO: Implement this part
                 }
             }
         }
@@ -172,6 +173,14 @@ namespace PLessPP.PowerPointController
             var powerPoint = GetPowerPoint();
             ControlPowerPoint(powerPoint);
             powerPoint.Quit();
+        }
+
+        /// <summary>
+        /// Disposes the object.
+        /// </summary>
+        public void Dispose()
+        {
+            // Remove event handlers
         }
     }
 }

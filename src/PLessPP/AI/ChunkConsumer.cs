@@ -4,12 +4,19 @@
 
 namespace PLessPP.AI
 {
+    using System;
+
     using PLessPP.Data;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public delegate void GesturePerformed();
 
     /// <summary>
     /// This class is responsible for continuosly read the buffer and react to positives.
     /// </summary>
-    public class ChunkConsumer
+    public class ChunkConsumer : IDisposable
     {
         private readonly ISequenceSearcher searchAlgorithm;
         private readonly ISearchDecider searchDecider;
@@ -29,8 +36,10 @@ namespace PLessPP.AI
             this.normalizer = normalizer;
         }
 
-        public delegate void GesturePerformed();
-        public GesturePerformed OnGesturePerformed;
+        /// <summary>
+        /// 
+        /// </summary>
+        public event GesturePerformed OnGesturePerformed;
 
         /// <summary>
         /// 
@@ -55,9 +64,17 @@ namespace PLessPP.AI
 
                 if (matchFound)
                 {
-                    OnGesturePerformed.Invoke();
+                    this.OnGesturePerformed?.Invoke();
                 }
             }
+        }
+
+        /// <summary>
+        /// Disposes the object.
+        /// </summary>
+        public void Dispose()
+        {
+            // Might need here to perform some disposal
         }
     }
 }
