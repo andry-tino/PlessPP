@@ -41,6 +41,8 @@ namespace PLessPP.AI
                 return null;
             }
 
+            Console.WriteLine($"Chunk requested at {DateTime.Now}");
+
             lock (this.dataPoints)
             {
                 return this.dataPoints.ToArray();
