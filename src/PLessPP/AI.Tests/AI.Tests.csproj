@@ -91,6 +91,12 @@
     <None Include="SearchAlgorithms\TestObjects\SampleData_Andrea_Positive_2.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="SearchAlgorithms\TestObjects\SampleData_Constantin_NP2N.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SearchAlgorithms\TestObjects\SampleData_Constantin_Positive_1.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="SearchAlgorithms\TestObjects\SampleData_Liansheng_Positive.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

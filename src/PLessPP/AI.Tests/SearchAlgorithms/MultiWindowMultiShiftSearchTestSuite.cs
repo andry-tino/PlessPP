@@ -34,6 +34,8 @@ namespace PLessPP.Testing
     /// - windows-num:      Number of windows being used
     /// - shift:            Shift to use
     /// - threshold:        Threshold to use
+    /// 
+    /// TODO: Readjust thresholds!
     /// </summary>
     [TestClass]
     public class MultiWindowMultiShiftSearchTestSuite
@@ -47,6 +49,7 @@ namespace PLessPP.Testing
             // Declaring to MSTest which files to leave in the out folder
             Suite.AddOutputFile(GetCompleteLogFileName(nameof(Scenario_Andrea_Sx_NP1N_P1_A_MWMS_MWMST_1_1_100)));
             Suite.AddOutputFile(GetCompleteLogFileName(nameof(Scenario_Andrea_Sx_NP1N_P2_A_MWMS_MWMST_1_1_100)));
+            Suite.AddOutputFile(GetCompleteLogFileName(nameof(Scenario_Constantin_Sx_NP2N_P1_A_MWMS_MWMST_1_1_100)));
             Suite.AddOutputFile(GetCompleteLogFileName(nameof(Scenario_Andrea_Sx_NP1N_P2_A_MWMS_MWMST_3_1_100)));
             Suite.AddOutputFile(GetCompleteLogFileName(nameof(Scenario_Andrea_Sx_NP2N_P1_A_MWMS_MWMST_1_1_100)));
             Suite.AddOutputFile(GetCompleteLogFileName(nameof(Scenario_Andrea_Sx_NP1N_Liansheng_Sx_P_A_MWMS_MWMST_1_1_100)));
@@ -109,6 +112,36 @@ namespace PLessPP.Testing
                 normalize: true);
 
             WriteResults(results, GetCompleteLogFileName(nameof(Scenario_Andrea_Sx_NP1N_P2_A_MWMS_MWMST_1_1_100)));
+
+            Assert.AreEqual(true, matchFound, "Match expected in NPN configuration!");
+        }
+
+        /// <summary>
+        /// Constantin samples.
+        /// Left hand.
+        /// Positive sequence inside negative sequence.
+        /// Use different positive sequence from the same person as baseline.
+        /// Absolute difference distance.
+        /// Multi Window Multi Shift search algorithm.
+        /// Multi Window Multi Shift Threshold decider.
+        /// 1 window.
+        /// Shift: 1 point.
+        /// </summary>
+        [TestMethod]
+        public void Scenario_Constantin_Sx_NP2N_P1_A_MWMS_MWMST_1_1_100()
+        {
+            object results;
+            bool matchFound = GetDTWMultiWindowMultiShiftSearchDecidedResult(
+                TestObjectsProvider.SampleDataConstantinPositive1,
+                TestObjectsProvider.SampleDataConstantinNP2N,
+                1,
+                TestObjectsProvider.SampleDataConstantinPositive1Length,
+                new AbsoluteDifferencePointDistanceCalculator(),
+                new MultiWindowMultiShiftThresholdSearchDecider(1),
+                out results,
+                normalize: true);
+
+            WriteResults(results, GetCompleteLogFileName(nameof(Scenario_Constantin_Sx_NP2N_P1_A_MWMS_MWMST_1_1_100)));
 
             Assert.AreEqual(true, matchFound, "Match expected in NPN configuration!");
         }

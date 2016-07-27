@@ -15,7 +15,8 @@ namespace PLessPP.AI
     /// </summary>
     public class BaselineProvider
     {
-        private const string sampleDataFileName = "SampleData_Andrea_Positive_001.csv";
+        private const string sampleDataAndreaFileName = "SampleData_Andrea_Positive_001.csv";
+        private const string sampleDataConstantinFileName = "SampleData_Constantin_Positive_001.csv";
 
         // Cached values
         private Sequence baseline;
@@ -29,12 +30,17 @@ namespace PLessPP.AI
             {
                 if (this.baseline == null)
                 {
-                    CSVDataConnector dataConnector = new CSVDataConnector(GetPath(sampleDataFileName));
+                    CSVDataConnector dataConnector = new CSVDataConnector(GetPath(SelectedBaseline));
                     this.baseline = dataConnector.Data;
                 }
                 
                 return this.baseline;
             }
+        }
+
+        private string SelectedBaseline
+        {
+            get { return sampleDataConstantinFileName; }
         }
 
         private static string GetPath(string fileName)

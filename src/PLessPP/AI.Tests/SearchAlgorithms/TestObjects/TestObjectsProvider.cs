@@ -14,8 +14,10 @@ namespace PLessPP.Testing.AI.SearchAlgorithms.TestObjects
     {
         private const string sampleDataAndreaNegative = "SampleData_Andrea_Negative.csv";
         private const string sampleDataAndreaNP1N = "SampleData_Andrea_NP1N.csv";
+        private const string sampleDataConstantinNP2N = "SampleData_Constantin_NP2N.csv";
         private const string sampleDataAndreaNP2N = "SampleData_Andrea_NP2N.csv";
         private const string sampleDataAndreaPositive1 = "SampleData_Andrea_Positive_1.csv";
+        private const string sampleDataConstantinPositive1 = "SampleData_Constantin_Positive_1.csv";
         private const string sampleDataAndreaPositive2 = "SampleData_Andrea_Positive_2.csv";
         private const string sampleDataLianshengPositive = "SampleData_Liansheng_Positive.csv";
 
@@ -43,6 +45,14 @@ namespace PLessPP.Testing.AI.SearchAlgorithms.TestObjects
         /// <summary>
         /// 
         /// </summary>
+        public static string SampleDataConstantinNP2N
+        {
+            get { return GetPath(sampleDataConstantinNP2N); }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public static string SampleDataAndreaNP2N
         {
             get { return GetPath(sampleDataAndreaNP2N); }
@@ -60,6 +70,19 @@ namespace PLessPP.Testing.AI.SearchAlgorithms.TestObjects
         /// 
         /// </summary>
         public const int SampleDataAndreaPositive1Length = 103;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static string SampleDataConstantinPositive1
+        {
+            get { return GetPath(sampleDataConstantinPositive1); }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const int SampleDataConstantinPositive1Length = 74;
 
         /// <summary>
         /// 
