@@ -70,7 +70,8 @@ namespace PLessPP.Data
                 squareSum += (point - this.Mean) * (point - this.Mean);
             }
 
-            this.Variance = squareSum / this.Length;
+            //this.Variance = squareSum / this.Length;
+            this.Variance = Point.Sqrt(squareSum / this.Length);
         }
 
         /// <summary>

@@ -74,7 +74,7 @@ namespace PLessPP.Testing
                 1,
                 TestObjectsProvider.SampleDataAndreaPositive1Length,
                 new AbsoluteDifferencePointDistanceCalculator(),
-                new MultiWindowMultiShiftThresholdSearchDecider(100),
+                new MultiWindowMultiShiftThresholdSearchDecider(1),
                 out results,
                 normalize: true);
 
@@ -104,7 +104,7 @@ namespace PLessPP.Testing
                 1,
                 TestObjectsProvider.SampleDataAndreaPositive2Length,
                 new AbsoluteDifferencePointDistanceCalculator(),
-                new MultiWindowMultiShiftThresholdSearchDecider(100),
+                new MultiWindowMultiShiftThresholdSearchDecider(1),
                 out results,
                 normalize: true);
 
@@ -134,7 +134,7 @@ namespace PLessPP.Testing
                 1,
                 Utils.GenerateWindowTriple(TestObjectsProvider.SampleDataAndreaPositive2Length, TestObjectsProvider.SampleDataAndreaNP1NLength),
                 new AbsoluteDifferencePointDistanceCalculator(),
-                new MultiWindowMultiShiftThresholdSearchDecider(100),
+                new MultiWindowMultiShiftThresholdSearchDecider(1),
                 out results,
                 normalize: true);
 

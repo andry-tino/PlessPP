@@ -136,5 +136,17 @@ namespace PLessPP.Data
                 point1.GyroZ / n,
                 point1.Timestamp);
         }
+
+        public static Point Sqrt(Point point1)
+        {
+            return new Point(
+                Math.Sqrt(point1.AccelerationX),
+                Math.Sqrt(point1.AccelerationY),
+                Math.Sqrt(point1.AccelerationZ),
+                Math.Sqrt(point1.GyroX),
+                Math.Sqrt(point1.GyroY),
+                Math.Sqrt(point1.GyroZ),
+                point1.Timestamp);
+        }
     }
 }
