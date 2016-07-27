@@ -37,13 +37,7 @@ namespace BandController
     /// </summary>
     public sealed partial class MainPage
     {
-        private const int SecondsOfData = 4;
-        private const int ItemsPerSecond = 64;
-        private const int ItemsInChunk = SecondsOfData * ItemsPerSecond;
-
         private App viewModel;
-
-        private DateTime lastTimeOfWrite;
 
         private IBandClient bandClient;
 
@@ -85,51 +79,6 @@ namespace BandController
 
         private readonly ConcurrentQueue<DataPoint> dataPoints = new ConcurrentQueue<DataPoint>();
 
-        public DataPoint[] GetCurrentChunk()
-        {
-            lock (this.dataPoints)
-            {
-                return this.dataPoints.ToArray();
-            }
-        }
-
-        /// <summary>
-        ///     TODO get from Andrea
-        /// </summary>
-        /// <param name="points"></param>
-        private async void ProcessData(DataPoint[] points)
-        {
-            // This commented code is for when you want to write sample data to a file
-            /*
-            StorageFile outputFile =
-                (await
-                    folder.CreateFileAsync(
-                        @"Sampledata_" + now.Hour + "_" + now.Minute + "_" + now.Second + ".csv",
-                        CreationCollisionOption.ReplaceExisting));
-            var lines = new List<string>();
-            for (var index = 0; index < dataChunks.Count; index++)
-            {
-                lines.Add(dataChunks[index].ToString());
-            }
-            await FileIO.AppendLinesAsync(outputFile, lines);
-            dataChunks.Clear();
-            */
-
-            double averageAccX = 0;
-            foreach (DataPoint point in points)
-            {
-                averageAccX += point.Ticks;
-            }
-            averageAccX /= points.Length;
-            averageAccX /= 64848;
-
-            if ( (Math.Ceiling(averageAccX) % 1000 == 2) && ((DateTime.Now - this.lastTimeOfWrite).Seconds > 1) )
-            {
-                // todo remove this
-                await bandClient.NotificationManager.VibrateAsync(VibrationType.TwoToneHigh);
-            }
-        }
-
         private async void GyroscopeReadingChanged(object sender, BandSensorReadingEventArgs<IBandGyroscopeReading> e)
         {
             // Read data
@@ -140,16 +89,7 @@ namespace BandController
             {
                 var datapoint = new DataPoint(reading.AccelerationX, reading.AccelerationY, reading.AccelerationZ, reading.AngularVelocityX,
                     reading.AngularVelocityY, reading.AngularVelocityZ, reading.Timestamp.Ticks);
-                // Add new data
-                this.dataPoints.Enqueue(datapoint);
-
-                // Throw out old data
-                if(this.dataPoints.Count > ItemsInChunk)
-                {
-                    DataPoint toChug;
-                    this.dataPoints.TryDequeue(out toChug);
-                }
-
+                
                 // send data to win32 land
                 try
                 {
@@ -196,20 +136,10 @@ namespace BandController
                 // Connect to Microsoft Band.
                 bandClient = await BandClientManager.Instance.ConnectAsync(pairedBands[0]);
 
-                int samplesReceived = 0; // the number of Gyroscope samples received
                 // Subscribe to Gyroscope data.
                 bandClient.SensorManager.Gyroscope.ReadingChanged += this.GyroscopeReadingChanged;
-                
-                /*Task task = Task.Run(() =>
-                {
-                    while (true)
-                    {
-                        DataPoint[] pointsClone = this.GetCurrentChunk();
-                        this.ProcessData(pointsClone);
-                    }
-                });*/
 
-                Task task2 = Task.Run(async () =>
+                Task task = Task.Run(async () =>
                 {
                     var streamReader = new StreamReader(this.client.InputStream.AsStreamForRead());
                     while (true)
@@ -220,7 +150,6 @@ namespace BandController
                 });
 
                 await bandClient.SensorManager.Gyroscope.StartReadingsAsync();
-
             }
             catch (Exception ex)
             {

@@ -10,6 +10,7 @@ namespace PowerPointController
     using System.Net;
     using System.Net.Sockets;
     using System.Threading;
+    using System.Threading.Tasks;
 
     public class PowerPointController
     {
@@ -45,7 +46,6 @@ namespace PowerPointController
 
             // Set up socket
             var endpoint = new IPEndPoint(IPAddress.Loopback, 7039);
-            double previousValue = 0;
 
             while (true)
             {
@@ -53,9 +53,38 @@ namespace PowerPointController
                 {
                     var server = new TcpListener(endpoint);
                     server.Start();
-                    var connection = server.AcceptTcpClient();
+
+                    var connection = server.AcceptTcpClient(); // blocks
+
                     var reader = new StreamReader(connection.GetStream());
                     var writer = new StreamWriter(connection.GetStream());
+                    var processor = new ChunkProcessor();
+
+                    // Start chunk processing worker task
+                    Task task = Task.Run(() =>
+                    { 
+                        while (connection.Connected)
+                        {
+                            DataPoint[] pointsClone = processor.GetCurrentChunk();
+                            bool correctGesture = processor.ProcessChunk(pointsClone);
+                            if (correctGesture)
+                            {
+                                Microsoft.Office.Interop.PowerPoint.SlideShowWindows slideShowWindows =
+                                    powerPoint.SlideShowWindows;
+                                if (slideShowWindows.Count < 1)
+                                    return;
+
+                                Microsoft.Office.Interop.PowerPoint.SlideShowWindow slideShowWindow = slideShowWindows[1];
+                                slideShowWindow.View.Next();
+
+                                // notify band to vibrate
+                                writer.WriteLine("buzz");
+                                writer.Flush();
+
+                                Console.WriteLine("We have a gesture!");
+                            }
+                        }
+                    });
 
                     while (connection.Connected)
                     {
@@ -76,26 +105,15 @@ namespace PowerPointController
                                 Double.Parse(data[5]),
                                 Int64.Parse(data[6])
                             );
+
+                            processor.EnqueueData(datapoint);
                         }
                         catch
                         {
                             // invalid data - discard
+                            Console.WriteLine("Received badly formatted data");
                             continue;
                         }
-
-                        double value = Double.Parse(data[0]);
-                        if (value > 2 && previousValue < 2)
-                        {
-                            Microsoft.Office.Interop.PowerPoint.SlideShowWindows slideShowWindows =
-                                    powerPoint.SlideShowWindows;
-                            if (slideShowWindows.Count < 1) continue;
-                            Microsoft.Office.Interop.PowerPoint.SlideShowWindow slideShowWindow = slideShowWindows[1];
-                            slideShowWindow.View.Next();
-                            writer.WriteLine("buzz");
-                            writer.Flush();
-                        }
-
-                        previousValue = value;
                     }
 
                     server.Stop();
@@ -109,7 +127,7 @@ namespace PowerPointController
 
         private static void Main(string[] args)
         {
-            Microsoft.Office.Interop.PowerPoint.Application powerPoint = GetPowerPoint();
+            var powerPoint = GetPowerPoint();
             ControlPowerPoint(powerPoint);
             powerPoint.Quit();
         }

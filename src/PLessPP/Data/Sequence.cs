@@ -88,7 +88,10 @@ namespace PLessPP.Data
         /// </summary>
         /// <param name="index1"></param>
         /// <param name="index2"></param>
-        /// <returns></returns>
+        /// <returns>
+        /// A <see cref="Sequence"/> truncated to the specified slice and with
+        /// the same <see cref="INormalizer"/> of the original sequence.
+        /// </returns>
         public Sequence this[int index1, int index2]
         {
             get
@@ -114,7 +117,7 @@ namespace PLessPP.Data
                     points.Add(this.sequence.ElementAt(i));
                 }
 
-                return new Sequence(points.ToArray());
+                return new Sequence(this.normalizer, points.ToArray());
             }
         }
 
