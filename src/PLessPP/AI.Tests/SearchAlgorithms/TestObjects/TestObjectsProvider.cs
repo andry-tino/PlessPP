@@ -15,6 +15,7 @@ namespace PLessPP.Testing.AI.SearchAlgorithms.TestObjects
         private const string sampleDataAndreaNegative = "SampleData_Andrea_Negative.csv";
         private const string sampleDataAndreaNP1N = "SampleData_Andrea_NP1N.csv";
         private const string sampleDataConstantinNP2N = "SampleData_Constantin_NP2N.csv";
+        private const string sampleDataConstantinNP3N = "SampleData_Constantin_NP3N.csv";
         private const string sampleDataAndreaNP2N = "SampleData_Andrea_NP2N.csv";
         private const string sampleDataAndreaPositive1 = "SampleData_Andrea_Positive_1.csv";
         private const string sampleDataConstantinPositive1 = "SampleData_Constantin_Positive_1.csv";
@@ -48,6 +49,14 @@ namespace PLessPP.Testing.AI.SearchAlgorithms.TestObjects
         public static string SampleDataConstantinNP2N
         {
             get { return GetPath(sampleDataConstantinNP2N); }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static string SampleDataConstantinNP3N
+        {
+            get { return GetPath(sampleDataConstantinNP3N); }
         }
 
         /// <summary>
