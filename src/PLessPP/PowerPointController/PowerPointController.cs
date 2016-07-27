@@ -1,39 +1,45 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="PowerPointController.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
+﻿/// <summary>
+/// PowerPointController.cs
+/// </summary>
+
 namespace PowerPointController
 {
+    using System;
+    using System.Net;
+    using System.Net.Sockets;
+    using System.IO;
+    using System.Threading.Tasks;
+
+    using MSPP = Microsoft.Office.Interop.PowerPoint;
+
     using PLessPP.AI;
     using PLessPP.Data;
     using PLessPP.Similarity;
-    using System;
-    using System.IO;
-    using System.Net;
-    using System.Net.Sockets;
-    using System.Threading;
-    using System.Threading.Tasks;
 
+    /// <summary>
+    /// Controller for the presentation.
+    /// </summary>
+    /// <remarks>
+    /// Current implementation uses sockets: to change into WCF.
+    /// </remarks>
     public class PowerPointController
     {
         /// <summary>
         /// Get the running PowerPoint instance on this machine
         /// </summary>
         /// <returns></returns>
-        public static Microsoft.Office.Interop.PowerPoint.Application GetPowerPoint()
+        public static MSPP.Application GetPowerPoint()
         {
-            Microsoft.Office.Interop.PowerPoint.Application instance;
+            MSPP.Application instance;
             try
             {
-                instance =
-                    (Microsoft.Office.Interop.PowerPoint.Application)System.Runtime.InteropServices.Marshal.GetActiveObject("PowerPoint.Application");
+                instance = (MSPP.Application)System.Runtime.InteropServices.Marshal.GetActiveObject("PowerPoint.Application");
                 Console.WriteLine("Found a running instance of PowerPoint, attached.");
             }
             catch (Exception)
             {
                 Console.WriteLine("No running PowerPoint instance found, starting new one.");
-                instance = new Microsoft.Office.Interop.PowerPoint.Application();
+                instance = new MSPP.Application();
                 instance.Activate();
             }
             return instance;
@@ -43,7 +49,7 @@ namespace PowerPointController
         /// Control the PowerPoint presentation and make it skip a slide when a file changes
         /// </summary>
         /// <param name="powerPoint"></param>
-        public static void ControlPowerPoint(Microsoft.Office.Interop.PowerPoint.Application powerPoint)
+        public static void ControlPowerPoint(MSPP.Application powerPoint)
         {
             Console.WriteLine("Controlling the PowerPoint Presentation");
 
@@ -83,12 +89,13 @@ namespace PowerPointController
                     // Configure callback
                     processor.OnGesturePerformed += () =>
                     {
-                        Microsoft.Office.Interop.PowerPoint.SlideShowWindows slideShowWindows =
-                                    powerPoint.SlideShowWindows;
+                        MSPP.SlideShowWindows slideShowWindows = powerPoint.SlideShowWindows;
                         if (slideShowWindows.Count < 1)
+                        {
                             return;
+                        }
 
-                        Microsoft.Office.Interop.PowerPoint.SlideShowWindow slideShowWindow = slideShowWindows[1];
+                        MSPP.SlideShowWindow slideShowWindow = slideShowWindows[1];
                         slideShowWindow.View.Next();
 
                         // notify band to vibrate
