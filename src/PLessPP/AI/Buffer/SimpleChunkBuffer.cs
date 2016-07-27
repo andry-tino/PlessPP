@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace PLessPP.AI
 {
+    public class SimpleChunkBuffer : IChunkBuffer
     {
 
         private const int SecondsOfData = 4;
