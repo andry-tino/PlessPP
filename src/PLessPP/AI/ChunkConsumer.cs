@@ -4,6 +4,8 @@
 
 namespace PLessPP.AI
 {
+    using System;
+
     using PLessPP.Data;
 
     /// <summary>
@@ -14,7 +16,7 @@ namespace PLessPP.AI
     /// <summary>
     /// This class is responsible for continuosly read the buffer and react to positives.
     /// </summary>
-    public class ChunkConsumer
+    public class ChunkConsumer : IDisposable
     {
         private readonly ISequenceSearcher searchAlgorithm;
         private readonly ISearchDecider searchDecider;
@@ -65,6 +67,14 @@ namespace PLessPP.AI
                     this.OnGesturePerformed?.Invoke();
                 }
             }
+        }
+
+        /// <summary>
+        /// Disposes the object.
+        /// </summary>
+        public void Dispose()
+        {
+            // Might need here to perform some disposal
         }
     }
 }
