@@ -11,6 +11,7 @@ namespace PLessPP.Testing
     using System.IO;
 
     using PLessPP.AI;
+    using PLessPP.Data;
     using PLessPP.Testing.Testability;
 
     internal static class Utils
@@ -38,6 +39,16 @@ namespace PLessPP.Testing
         public static void WriteMWMSResults(MultiWindowMultiShiftResults results, string path)
         {
             WriteLog(results.ToString(), path);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sequence"></param>
+        /// <param name="path"></param>
+        public static void WriteSequence(Sequence sequence, string path)
+        {
+            WriteLog(sequence.ToString(), path);
         }
 
         /// <summary>

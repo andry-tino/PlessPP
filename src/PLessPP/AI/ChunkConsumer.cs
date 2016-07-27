@@ -2,6 +2,8 @@
 /// ChunkConsumer.cs
 /// </summary>
 
+#undef LOG_SIGNALS
+
 namespace PLessPP.AI
 {
     using System;
@@ -60,6 +62,10 @@ namespace PLessPP.AI
 
                 object results;
                 this.searchAlgorithm.Search(new Sequence(normalizer, chunk), out results);
+
+#if LOG_SIGNALS
+                System.IO.File.WriteAllText(@"C:\temp\plesspp_" + DateTime.Now.Ticks + ".txt", (results as MultiWindowMultiShiftResults).ToString());
+#endif
 
                 bool matchFound = this.searchDecider.MatchFound(results);
 

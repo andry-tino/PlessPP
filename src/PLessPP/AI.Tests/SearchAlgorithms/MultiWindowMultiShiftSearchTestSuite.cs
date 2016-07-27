@@ -299,6 +299,11 @@ namespace PLessPP.Testing
             Utils.WriteMWMSResults(mwmsResults, Path.Combine(Suite.OutputPath, identifier));
         }
 
+        private static void WriteSequences(Sequence sequence, string identifier)
+        {
+            Utils.WriteSequence(sequence, identifier);
+        }
+
         private string GetCompleteLogFileName(string noExtensionName)
         {
             return string.Format("{0}__{1}{2}", nameof(MultiWindowMultiShiftSearchTestSuite), noExtensionName, ".txt");

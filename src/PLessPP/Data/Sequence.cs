@@ -52,6 +52,44 @@ namespace PLessPP.Data
             return this.normalizer?.Normalize(this);
         }
 
+        /// <summary>
+        /// Gets a real signal representation.
+        /// </summary>
+        public IEnumerable<double> Modules
+        {
+            get { return this.sequence.Select(point => point.Module); }
+        }
+
+        /// <summary>
+        /// Renders the signal.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            var modules = this.Modules;
+
+            const string openBracket = "{";
+            const string closeBracket = "}";
+            const string separator = ",";
+
+            string output = string.Empty;
+
+            output += openBracket;
+
+            foreach (var number in modules)
+            {
+                output += openBracket;
+                output += number.ToString();
+                output += separator;
+            }
+
+            output += closeBracket;
+
+            output = output.Replace(string.Format("{0}{1}", separator, closeBracket), closeBracket);
+
+            return output;
+        }
+
         private void CalcStats()
         {
             Point sum = new Point(0, 0, 0, 0, 0, 0, 0);

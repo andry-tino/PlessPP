@@ -77,6 +77,14 @@ namespace PLessPP.Data
         {
         }
 
+        /// <summary>
+        /// Gets a real representation.
+        /// </summary>
+        public double Module
+        {
+            get { return this.AccelerationX + this.AccelerationY + this.AccelerationZ + this.GyroX + this.GyroY + this.GyroZ; }
+        }
+
         public static Point operator +(Point point1, Point point2)
         {
             return new Point(
