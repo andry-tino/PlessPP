@@ -141,22 +141,28 @@ namespace PLessPP.PowerPointController
             SimpleNormalizer normalizer = new SimpleNormalizer();
 
             // 2. Setting baseline
-            Point[] p = { new Point(1, 2, 3, 4, 5, 6, 7) };
-            Sequence goldenBaseline = new Sequence(normalizer, p);
+            Sequence baseline = new BaselineProvider().Baseline;
 
             // 3. Setting windows for search algorithm
-            int[] windowSize = { goldenBaseline.Length };
+            int[] windowSize = { baseline.Length };
 
-            // 4. Setting search algorithm
+            // 4.1. Setting shift
+            int shift = 1;
+
+            // 4.2. Setting need for normalization
+            bool normalize = true;
+
+            // 4.3. Setting search algorithm
             var searchAlgorithm = new MultiWindowMultiShiftSearch(
-                1,
+                shift,
                 windowSize,
-                goldenBaseline,
+                baseline,
                 new DynamicTimeWarpingAlgorithm(new AbsoluteDifferencePointDistanceCalculator()),
-                true);
+                normalize);
 
             // 5. Setting decider
-            var searchDecider = new MultiWindowMultiShiftThresholdSearchDecider(3);
+            double threshold = 5d;
+            var searchDecider = new MultiWindowMultiShiftThresholdSearchDecider(threshold);
             
             return new ChunkConsumer(searchAlgorithm, searchDecider, chunkBuffer, normalizer);
         }
