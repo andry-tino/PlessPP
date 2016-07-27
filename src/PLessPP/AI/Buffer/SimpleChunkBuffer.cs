@@ -15,17 +15,18 @@ namespace PLessPP.AI
     /// </summary>
     public class SimpleChunkBuffer : IChunkBuffer
     {
-        private const int SecondsOfData = 4;
-        private const int ItemsPerSecond = 64;
-        private const int ItemsInChunk = SecondsOfData * ItemsPerSecond;
+        private readonly int secondsOfData;
+        private readonly int itemsPerSecond;
 
         private readonly ConcurrentQueue<Point> dataPoints = new ConcurrentQueue<Point>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SimpleChunkBuffer"/> class.
         /// </summary>
-        public SimpleChunkBuffer()
+        public SimpleChunkBuffer(int secondsOfData = 4, int itemsPerSecond = 64)
         {
+            this.secondsOfData = secondsOfData;
+            this.itemsPerSecond = itemsPerSecond;
         }
 
         /// <summary>
@@ -36,7 +37,8 @@ namespace PLessPP.AI
         {
             if (this.dataPoints.Count() < ItemsInChunk)
             {
-                return null; // not enough data yet
+                // Not enough data yet
+                return null;
             }
 
             lock (this.dataPoints)
@@ -53,7 +55,7 @@ namespace PLessPP.AI
             lock (this.dataPoints)
             {
                 Point toChug;
-                while (this.dataPoints.TryDequeue(out toChug)) ;
+                while (this.dataPoints.TryDequeue(out toChug));
             }
         }
 
@@ -71,6 +73,14 @@ namespace PLessPP.AI
                 Point toChug;
                 this.dataPoints.TryDequeue(out toChug);
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private int ItemsInChunk
+        {
+            get { return this.secondsOfData * this.itemsPerSecond; }
         }
     }
 }

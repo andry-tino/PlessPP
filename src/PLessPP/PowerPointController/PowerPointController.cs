@@ -2,7 +2,7 @@
 /// PowerPointController.cs
 /// </summary>
 
-namespace PowerPointController
+namespace PLessPP.PowerPointController
 {
     using System;
     using System.Net;

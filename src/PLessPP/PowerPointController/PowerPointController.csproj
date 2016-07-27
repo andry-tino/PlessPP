@@ -7,8 +7,8 @@
     <ProjectGuid>{4A046E39-BAEB-4A6A-A480-6579835E110F}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PowerPointController</RootNamespace>
-    <AssemblyName>PowerPointController</AssemblyName>
+    <RootNamespace>PLessPP.PowerPointController</RootNamespace>
+    <AssemblyName>PLessPP.PowerPointController</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
