@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="SearchAlgorithms\MultiWindowMultiShiftSearchTestSuite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SearchAlgorithms\MultiWindowMultiShiftSearchTimingTestSuite.cs" />
     <Compile Include="SearchAlgorithms\TestObjects\TestObjectsProvider.cs" />
     <Compile Include="Suite.cs" />
     <Compile Include="Utils.cs" />

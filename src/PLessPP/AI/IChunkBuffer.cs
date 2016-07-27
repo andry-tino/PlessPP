@@ -14,5 +14,7 @@ namespace PLessPP.AI
     public interface IChunkBuffer
     {
         Point[] GetCurrentChunk();
+
+        void ClearBuffer();
     }
 }
