@@ -15,9 +15,6 @@ namespace PLessPP.AI
     {
         private readonly double threshold;
 
-        // Cached values
-        private bool? matchFound;
-
         /// <summary>
         /// 
         /// </summary>
@@ -33,25 +30,23 @@ namespace PLessPP.AI
         public bool MatchFound(object results)
         {
             var mwmsResults = (MultiWindowMultiShiftResults)results;
+            bool matchFound;
+            var allWindowsResults = new List<bool>();
 
-            if (!this.matchFound.HasValue)
+            foreach (var windowDistances in mwmsResults)
             {
-                var allWindowsResults = new List<bool>();
-
-                foreach (var windowDistances in mwmsResults)
-                {
-                    allWindowsResults.Add(CompareWindowMatch(windowDistances));
-                }
-
-                // Deciding: match if all windows found a match
-                this.matchFound = !allWindowsResults.Any(value => value == false);
+                allWindowsResults.Add(CompareWindowMatch(windowDistances));
             }
 
-            return this.matchFound.Value;
+            // Deciding: match if all windows found a match
+            matchFound = !allWindowsResults.Any(value => value == false);
+            
+            return matchFound;
         }
 
         private bool CompareWindowMatch(IEnumerable<double> windowDistances)
         {
+            Console.WriteLine($"confidence: {windowDistances.Min()}");
             foreach (var distance in windowDistances)
             {
                 if (distance <= this.threshold)

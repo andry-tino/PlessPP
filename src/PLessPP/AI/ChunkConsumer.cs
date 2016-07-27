@@ -7,6 +7,7 @@ namespace PLessPP.AI
     using System;
 
     using PLessPP.Data;
+    using System.Threading;
 
     /// <summary>
     /// 
@@ -65,6 +66,8 @@ namespace PLessPP.AI
                 if (matchFound)
                 {
                     this.OnGesturePerformed?.Invoke();
+                    //this.chunkBuffer.ClearBuffer();
+                    Thread.Sleep(3000);
                 }
             }
         }
