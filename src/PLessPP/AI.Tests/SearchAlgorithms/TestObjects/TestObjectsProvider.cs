@@ -38,6 +38,11 @@ namespace PLessPP.Testing.AI.SearchAlgorithms.TestObjects
         /// <summary>
         /// 
         /// </summary>
+        public const int SampleDataAndreaNP1NLength = 1455;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public static string SampleDataAndreaNP2N
         {
             get { return GetPath(sampleDataAndreaNP2N); }

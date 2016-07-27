@@ -18,6 +18,21 @@ namespace PLessPP.Testing
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="cardinalLength"></param>
+        /// <returns></returns>
+        public static int[] GenerateWindowTriple(int cardinalLength, int maxLength)
+        {
+            return new int[] 
+            {
+                cardinalLength,
+                (int)Math.Ceiling(cardinalLength / 2d),
+                (int)Math.Floor((cardinalLength + maxLength) / 2d)
+            };
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="results"></param>
         /// <param name="path"></param>
         public static void WriteMWMSResults(MultiWindowMultiShiftResults results, string path)

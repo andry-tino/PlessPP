@@ -47,6 +47,7 @@ namespace PLessPP.Testing
             // Declaring to MSTest which files to leave in the out folder
             Suite.AddOutputFile(GetCompleteLogFileName(nameof(Scenario_Andrea_Sx_NP1N_P1_A_MWMS_MWMST_1_1_100)));
             Suite.AddOutputFile(GetCompleteLogFileName(nameof(Scenario_Andrea_Sx_NP1N_P2_A_MWMS_MWMST_1_1_100)));
+            Suite.AddOutputFile(GetCompleteLogFileName(nameof(Scenario_Andrea_Sx_NP1N_P2_A_MWMS_MWMST_3_1_100)));
             Suite.AddOutputFile(GetCompleteLogFileName(nameof(Scenario_Andrea_Sx_NP2N_P1_A_MWMS_MWMST_1_1_100)));
             Suite.AddOutputFile(GetCompleteLogFileName(nameof(Scenario_Andrea_Sx_NP1N_Liansheng_Sx_P_A_MWMS_MWMST_1_1_100)));
         }
@@ -74,7 +75,8 @@ namespace PLessPP.Testing
                 TestObjectsProvider.SampleDataAndreaPositive1Length,
                 new AbsoluteDifferencePointDistanceCalculator(),
                 new MultiWindowMultiShiftThresholdSearchDecider(100),
-                out results);
+                out results,
+                normalize: true);
 
             WriteResults(results, GetCompleteLogFileName(nameof(Scenario_Andrea_Sx_NP1N_P1_A_MWMS_MWMST_1_1_100)));
 
@@ -103,9 +105,40 @@ namespace PLessPP.Testing
                 TestObjectsProvider.SampleDataAndreaPositive2Length,
                 new AbsoluteDifferencePointDistanceCalculator(),
                 new MultiWindowMultiShiftThresholdSearchDecider(100),
-                out results);
+                out results,
+                normalize: true);
 
             WriteResults(results, GetCompleteLogFileName(nameof(Scenario_Andrea_Sx_NP1N_P2_A_MWMS_MWMST_1_1_100)));
+
+            Assert.AreEqual(true, matchFound, "Match expected in NPN configuration!");
+        }
+
+        /// <summary>
+        /// Andrea samples.
+        /// Left hand.
+        /// Positive sequence inside negative sequence.
+        /// Use different positive sequence from the same person as baseline.
+        /// Absolute difference distance.
+        /// Multi Window Multi Shift search algorithm.
+        /// Multi Window Multi Shift Threshold decider.
+        /// 3 windows.
+        /// Shift: 1 point.
+        /// </summary>
+        [TestMethod]
+        public void Scenario_Andrea_Sx_NP1N_P2_A_MWMS_MWMST_3_1_100()
+        {
+            object results;
+            bool matchFound = GetDTWMultiWindowMultiShiftSearchDecidedResult(
+                TestObjectsProvider.SampleDataAndreaPositive2,
+                TestObjectsProvider.SampleDataAndreaNP1N,
+                1,
+                Utils.GenerateWindowTriple(TestObjectsProvider.SampleDataAndreaPositive2Length, TestObjectsProvider.SampleDataAndreaNP1NLength),
+                new AbsoluteDifferencePointDistanceCalculator(),
+                new MultiWindowMultiShiftThresholdSearchDecider(100),
+                out results,
+                normalize: true);
+
+            WriteResults(results, GetCompleteLogFileName(nameof(Scenario_Andrea_Sx_NP1N_P2_A_MWMS_MWMST_3_1_100)));
 
             Assert.AreEqual(true, matchFound, "Match expected in NPN configuration!");
         }
@@ -131,8 +164,9 @@ namespace PLessPP.Testing
                 1,
                 TestObjectsProvider.SampleDataAndreaPositive1Length,
                 new AbsoluteDifferencePointDistanceCalculator(),
-                new MultiWindowMultiShiftThresholdSearchDecider(100),
-                out results);
+                new MultiWindowMultiShiftThresholdSearchDecider(1),
+                out results,
+                normalize: true);
 
             WriteResults(results, GetCompleteLogFileName(nameof(Scenario_Andrea_Sx_NP2N_P1_A_MWMS_MWMST_1_1_100)));
 
@@ -159,8 +193,9 @@ namespace PLessPP.Testing
                 1,
                 TestObjectsProvider.SampleDataLianshengPositiveLength,
                 new AbsoluteDifferencePointDistanceCalculator(),
-                new MultiWindowMultiShiftThresholdSearchDecider(100),
-                out results);
+                new MultiWindowMultiShiftThresholdSearchDecider(1),
+                out results,
+                normalize: true);
 
             WriteResults(results, GetCompleteLogFileName(nameof(Scenario_Andrea_Sx_NP1N_Liansheng_Sx_P_A_MWMS_MWMST_1_1_100)));
 
@@ -170,15 +205,22 @@ namespace PLessPP.Testing
         private static bool GetDTWMultiWindowMultiShiftSearchDecidedResult(string baselineFile, string sequenceFile, int shift, int windowLength, 
             IPointDistanceCalculator distanceCalculator, ISearchDecider searchDecider, out object results, bool normalize = false)
         {
+            return GetDTWMultiWindowMultiShiftSearchDecidedResult(baselineFile, sequenceFile, shift, new int[] { windowLength }, 
+                distanceCalculator, searchDecider, out results, normalize);
+        }
+
+        private static bool GetDTWMultiWindowMultiShiftSearchDecidedResult(string baselineFile, string sequenceFile, int shift, int[] windowLengths,
+            IPointDistanceCalculator distanceCalculator, ISearchDecider searchDecider, out object results, bool normalize = false)
+        {
             CSVDataConnector dataConnectorBaseline = new CSVDataConnector(baselineFile);
             CSVDataConnector dataConnectorSequence = new CSVDataConnector(sequenceFile);
 
             Sequence baseline = dataConnectorBaseline.Data;
             Sequence sequence = dataConnectorSequence.Data;
 
-            ISequenceSearcher mwmsSearchAlgorithm = new MultiWindowMultiShiftSearch(shift, new int[] { windowLength }, baseline, 
+            ISequenceSearcher mwmsSearchAlgorithm = new MultiWindowMultiShiftSearch(shift, windowLengths, baseline,
                 new DynamicTimeWarpingAlgorithm(distanceCalculator), normalize);
-            
+
             mwmsSearchAlgorithm.Search(sequence, out results);
 
             bool matchFound = searchDecider.MatchFound(results);
@@ -194,7 +236,7 @@ namespace PLessPP.Testing
 
         private string GetCompleteLogFileName(string noExtensionName)
         {
-            return string.Format("{0}{1}", noExtensionName, ".txt");
+            return string.Format("{0}__{1}{2}", nameof(MultiWindowMultiShiftSearchTestSuite), noExtensionName, ".txt");
         }
     }
 }
