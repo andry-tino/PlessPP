@@ -22,12 +22,25 @@ namespace PLessPP.Testing
         /// <param name="path"></param>
         public static void WriteMWMSResults(MultiWindowMultiShiftResults results, string path)
         {
-            string results2String = results.ToString();
+            WriteLog(results.ToString(), path);
+        }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="record"></param>
+        /// <param name="path"></param>
+        public static void WriteTimingRecord(TimingRecord record, string path)
+        {
+            WriteLog(record.ToString(), path);
+        }
+
+        private static void WriteLog(string content, string path)
+        {
             try
             {
                 Permissions.GrantFolderAccess(Path.GetDirectoryName(path));
-                File.WriteAllText(path, results2String);
+                File.WriteAllText(path, content);
             }
             catch (Exception e)
             {
@@ -59,5 +72,73 @@ namespace PLessPP.Testing
                 // Nothing to do
             }
         }
+
+        #region Types
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public struct TimingRecord
+        {
+            /// <summary>
+            /// Start time in ticks.
+            /// </summary>
+            public long Start { get; private set; }
+
+            /// <summary>
+            /// Stop time in ticks.
+            /// </summary>
+            public long Stop { get; private set; }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <returns></returns>
+            public static TimingRecord Create()
+            {
+                return new TimingRecord() { Start = DateTime.Now.Ticks, Stop = -1 };
+            }
+
+            /// <summary>
+            /// Marks the record.
+            /// </summary>
+            public void StopWatch()
+            {
+                if (this.Stop != -1)
+                {
+                    throw new InvalidOperationException("Stopiing has already been called! Cannot call it twice!");
+                }
+
+                this.Stop = DateTime.Now.Ticks;
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <returns></returns>
+            public override string ToString()
+            {
+                return string.Format("Ticks: {0}, Milliseconds: {1}", this.ElapsedTime, 
+                    new TimeSpan(this.ElapsedTime).TotalMilliseconds);
+            }
+
+            /// <summary>
+            /// Gets the elapsed time in ticks.
+            /// </summary>
+            public long ElapsedTime
+            {
+                get
+                {
+                    if (this.Stop == -1)
+                    {
+                        throw new InvalidOperationException("Need to stopwatch the record before performing this operation!");
+                    }
+
+                    return this.Stop - this.Start;
+                }
+            }
+        }
+
+        #endregion
     }
 }
