@@ -1,0 +1,24 @@
+﻿/// <summary>
+/// ISimilarityAlgorithm.cs
+/// </summary>
+
+namespace PLessPP.AI.Similarity
+{
+    using System;
+
+    using PLessPP.Data;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public interface ISimilarityAlgorithm
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sequence1"></param>
+        /// <param name="sequence2"></param>
+        /// <returns></returns>
+        double ComputeSimilarity(Sequence sequence1, Sequence sequence2);
+    }
+}
