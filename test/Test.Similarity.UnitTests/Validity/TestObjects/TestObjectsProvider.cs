@@ -1,6 +1,9 @@
-﻿/// <summary>
-/// TestObjectsProvider.cs
-/// </summary>
+﻿/**
+ * TestObjectsProvider.cs
+ * 
+ * Andrea Tino, Constantin Daniil, Jeroen Rietveld, 
+ * Liansheng Hua, Nikola Kukrika, Sam van Lieshout
+ */
 
 namespace PLessPP.Testing.Similarity.Validity.TestObjects
 {

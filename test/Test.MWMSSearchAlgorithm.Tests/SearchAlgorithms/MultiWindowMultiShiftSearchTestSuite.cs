@@ -1,6 +1,9 @@
-﻿/// <summary>
-/// MultiWindowMultiShiftSearchTestSuite.cs
-/// </summary>
+﻿/**
+ * MultiWindowMultiShiftSearchTestSuite.cs
+ * 
+ * Andrea Tino, Constantin Daniil, Jeroen Rietveld, 
+ * Liansheng Hua, Nikola Kukrika, Sam van Lieshout
+ */
 
 namespace PLessPP.Testing.MWMSSearchAlgorithm
 {

@@ -1,6 +1,9 @@
-﻿/// <summary>
-/// Accounts.cs
-/// </summary>
+﻿/**
+ * Accounts.cs
+ * 
+ * Andrea Tino, Constantin Daniil, Jeroen Rietveld, 
+ * Liansheng Hua, Nikola Kukrika, Sam van Lieshout
+ */
 
 namespace PLessPP.Testing.Testability
 {
