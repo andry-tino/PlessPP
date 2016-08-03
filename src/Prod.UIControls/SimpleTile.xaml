@@ -1,0 +1,16 @@
+﻿<UserControl
+    x:Class="PLessPP.Device.UIControls.SimpleTile"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PLessPP.Device.UIControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Grid>
+        <Rectangle Fill="White" HorizontalAlignment="Left" Height="280" Stroke="Black" VerticalAlignment="Top" Width="380" Margin="10,10,0,0"/>
+        <TextBox x:Name="textBox" Margin="20,20,20,20" TextWrapping="Wrap" Text="TextBox"/>
+    </Grid>
+</UserControl>

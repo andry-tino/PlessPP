@@ -1,0 +1,83 @@
+﻿<Page
+    x:Class="PLessPP.Device.BandGestureRecorder.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PLessPP.Device.BandGestureRecorder"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <MenuFlyout x:Key="ConfigurationMenu" Placement="Top">
+            <MenuFlyoutItem Name="FileLocationMenuFlyoutItem" Click="FileLocationMenuFlyoutItem_Click">File location...</MenuFlyoutItem>
+        </MenuFlyout>
+    </Page.Resources>
+
+    <Page.TopAppBar>
+        <CommandBar HorizontalAlignment="Right">
+            <AppBarToggleButton Label="Start/Stop recording" Icon="Accept"/>
+            <AppBarButton Icon="Admin" Label="Configure..." FlyoutBase.AttachedFlyout="{StaticResource ConfigurationMenu}" Click="AppBarButton_Click"/>
+        </CommandBar>
+    </Page.TopAppBar>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="165"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="TitleTextBlock" HorizontalAlignment="Left" Margin="25,25,0,0" TextWrapping="Wrap" Text="Gesture Recorder" VerticalAlignment="Top" FontFamily="Segoe UI Light" FontSize="56" Grid.Row="0"/>
+        <TextBlock x:Name="SubtitleTextBlock" HorizontalAlignment="Left" Margin="25,90,0,0" TextWrapping="Wrap" Text="Presenterless PowerPoint" VerticalAlignment="Top" FontSize="30" Foreground="#FF4F4646" Grid.Row="0"/>
+
+        <Rectangle Fill="#FF672166" Margin="0,23,0,0" Stroke="Black" StrokeThickness="0" Grid.Row="1" HorizontalAlignment="Left" Width="33"/>
+        <Grid Grid.Row="1" Margin="50,0,20,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <TextBox x:Name="AccXTextBox" Height="187" Margin="10,20,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" BorderThickness="0" BorderBrush="White" IsReadOnly="True" FontSize="150" FontFamily="Segoe UI Light" Grid.Column="0"/>
+            <TextBox x:Name="AccXMinor1TextBox" Height="100" Margin="13,207,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" BorderThickness="0" BorderBrush="White" IsReadOnly="True" FontSize="60" FontFamily="Segoe UI Light" Grid.Column="0" Foreground="#FF554B4B"/>
+            <TextBox x:Name="AccXMinor2TextBox" Height="100" Margin="13,312,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" BorderThickness="0" BorderBrush="White" IsReadOnly="True" FontSize="60" FontFamily="Segoe UI Light" Grid.Column="0" Foreground="#FF554B4B"/>
+            <TextBox x:Name="AccXMinor3TextBox" Height="100" Margin="13,418,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" BorderThickness="0" BorderBrush="White" IsReadOnly="True" FontSize="60" FontFamily="Segoe UI Light" Grid.Column="0" Foreground="#FF554B4B"/>
+            <TextBlock x:Name="AccXTitleTextBlock" Margin="27,10,10,0" TextWrapping="Wrap" Text="Acc.X" VerticalAlignment="Top" FontFamily="Segoe WP" FontSize="34" Height="60" Grid.Column="0"/>
+
+            <TextBox x:Name="AccYTextBox" HorizontalAlignment="Left" Margin="10,20,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="211" BorderThickness="0" BorderBrush="White" IsReadOnly="True" FontSize="150" FontFamily="Segoe UI Light" Grid.Column="1"/>
+            <TextBox x:Name="AccYMinor1TextBox" Height="100" Margin="13,207,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" BorderThickness="0" BorderBrush="White" IsReadOnly="True" FontSize="60" FontFamily="Segoe UI Light" Grid.Column="1" Foreground="#FF554B4B"/>
+            <TextBox x:Name="AccYMinor2TextBox" Height="100" Margin="13,312,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" BorderThickness="0" BorderBrush="White" IsReadOnly="True" FontSize="60" FontFamily="Segoe UI Light" Grid.Column="1" Foreground="#FF554B4B"/>
+            <TextBox x:Name="AccYMinor3TextBox" Height="100" Margin="13,418,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" BorderThickness="0" BorderBrush="White" IsReadOnly="True" FontSize="60" FontFamily="Segoe UI Light" Grid.Column="1" Foreground="#FF554B4B"/>
+            <TextBlock x:Name="AccYTitleTextBlock" Margin="27,10,10,0" TextWrapping="Wrap" Text="Acc.Y" VerticalAlignment="Top" FontFamily="Segoe WP" FontSize="34" Height="60" Grid.Column="1"/>
+
+            <TextBox x:Name="AccZTextBox" HorizontalAlignment="Left" Margin="10,20,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="211" BorderThickness="0" BorderBrush="White" IsReadOnly="True" FontSize="150" FontFamily="Segoe UI Light" Grid.Column="2"/>
+            <TextBox x:Name="AccZMinor1TextBox" Height="100" Margin="13,207,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" BorderThickness="0" BorderBrush="White" IsReadOnly="True" FontSize="60" FontFamily="Segoe UI Light" Grid.Column="2" Foreground="#FF554B4B"/>
+            <TextBox x:Name="AccZMinor2TextBox" Height="100" Margin="13,312,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" BorderThickness="0" BorderBrush="White" IsReadOnly="True" FontSize="60" FontFamily="Segoe UI Light" Grid.Column="2" Foreground="#FF554B4B"/>
+            <TextBox x:Name="AccZMinor3TextBox" Height="100" Margin="13,418,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" BorderThickness="0" BorderBrush="White" IsReadOnly="True" FontSize="60" FontFamily="Segoe UI Light" Grid.Column="2" Foreground="#FF554B4B"/>
+            <TextBlock x:Name="AccZTitleTextBlock" Margin="27,10,10,0" TextWrapping="Wrap" Text="Acc.Z" VerticalAlignment="Top" FontFamily="Segoe WP" FontSize="34" Height="60" Grid.Column="2"/>
+
+            <TextBox x:Name="RotXTextBox" HorizontalAlignment="Left" Margin="10,20,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="211" BorderThickness="0" BorderBrush="White" IsReadOnly="True" FontSize="150" FontFamily="Segoe UI Light" Grid.Column="3"/>
+            <TextBox x:Name="RotXMinor1TextBox" Height="100" Margin="13,207,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" BorderThickness="0" BorderBrush="White" IsReadOnly="True" FontSize="60" FontFamily="Segoe UI Light" Grid.Column="3" Foreground="#FF554B4B"/>
+            <TextBox x:Name="RotXMinor2TextBox" Height="100" Margin="13,312,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" BorderThickness="0" BorderBrush="White" IsReadOnly="True" FontSize="60" FontFamily="Segoe UI Light" Grid.Column="3" Foreground="#FF554B4B"/>
+            <TextBox x:Name="RotXMinor3TextBox" Height="100" Margin="13,418,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" BorderThickness="0" BorderBrush="White" IsReadOnly="True" FontSize="60" FontFamily="Segoe UI Light" Grid.Column="3" Foreground="#FF554B4B"/>
+            <TextBlock x:Name="RotXTitleTextBlock" Margin="27,10,10,0" TextWrapping="Wrap" Text="Rot.X" VerticalAlignment="Top" FontFamily="Segoe WP" FontSize="34" Height="60" Grid.Column="3"/>
+
+            <TextBox x:Name="RotYTextBox" HorizontalAlignment="Left" Margin="10,20,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="211" BorderThickness="0" BorderBrush="White" IsReadOnly="True" FontSize="150" FontFamily="Segoe UI Light" Grid.Column="4"/>
+            <TextBox x:Name="RotYMinor1TextBox" Height="100" Margin="13,207,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" BorderThickness="0" BorderBrush="White" IsReadOnly="True" FontSize="60" FontFamily="Segoe UI Light" Grid.Column="4" Foreground="#FF554B4B"/>
+            <TextBox x:Name="RotYMinor2TextBox" Height="100" Margin="13,312,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" BorderThickness="0" BorderBrush="White" IsReadOnly="True" FontSize="60" FontFamily="Segoe UI Light" Grid.Column="4" Foreground="#FF554B4B"/>
+            <TextBox x:Name="RotYMinor3TextBox" Height="100" Margin="13,418,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" BorderThickness="0" BorderBrush="White" IsReadOnly="True" FontSize="60" FontFamily="Segoe UI Light" Grid.Column="4" Foreground="#FF554B4B"/>
+            <TextBlock x:Name="RotYTitleTextBlock" Margin="27,10,10,0" TextWrapping="Wrap" Text="Rot.Y" VerticalAlignment="Top" FontFamily="Segoe WP" FontSize="34" Height="60" Grid.Column="4"/>
+
+            <TextBox x:Name="RotZTextBox" HorizontalAlignment="Left" Margin="10,20,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="211" BorderThickness="0" BorderBrush="White" IsReadOnly="True" FontSize="150" FontFamily="Segoe UI Light" Grid.Column="5"/>
+            <TextBox x:Name="RotZMinor1TextBox" Height="100" Margin="13,207,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" BorderThickness="0" BorderBrush="White" IsReadOnly="True" FontSize="60" FontFamily="Segoe UI Light" Grid.Column="5" Foreground="#FF554B4B"/>
+            <TextBox x:Name="RotZMinor2TextBox" Height="100" Margin="13,312,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" BorderThickness="0" BorderBrush="White" IsReadOnly="True" FontSize="60" FontFamily="Segoe UI Light" Grid.Column="5" Foreground="#FF554B4B"/>
+            <TextBox x:Name="RotZMinor3TextBox" Height="100" Margin="13,418,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" BorderThickness="0" BorderBrush="White" IsReadOnly="True" FontSize="60" FontFamily="Segoe UI Light" Grid.Column="5" Foreground="#FF554B4B"/>
+            <TextBlock x:Name="RotZTitleTextBlock" Margin="27,10,10,0" TextWrapping="Wrap" Text="Rot.Z" VerticalAlignment="Top" FontFamily="Segoe WP" FontSize="34" Height="60" Grid.Column="5"/>
+        </Grid>
+
+        <TextBlock x:Name="CopyrightTextBlock" Margin="0,0,10,10" TextWrapping="Wrap" Text="Presenterless PowerPoint (Band Controller App) copy 2016 - Andrea Tino, Constantin Daniil, Jeroen Rietveld, Liansheng Hua, Nikola Kukrika, Sam van Lieshout" FontSize="11" HorizontalAlignment="Right" Width="770" FontFamily="Segoe WP Light" Grid.Row="2" Height="23" VerticalAlignment="Bottom"/>
+    </Grid>
+</Page>

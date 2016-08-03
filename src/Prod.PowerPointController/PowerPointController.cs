@@ -47,18 +47,23 @@ namespace PLessPP.Controller.PowerPointController
         /// <returns></returns>
         public static MSPP.Application GetPowerPoint()
         {
-            MSPP.Application instance;
             try
             {
-                instance = (MSPP.Application)System.Runtime.InteropServices.Marshal.GetActiveObject("PowerPoint.Application");
-                Console.WriteLine("Found a running instance of PowerPoint, attached.");
+                if (new MSPP.Application().Presentations.Count > 0)
+                {
+                    Console.WriteLine("Found a running instance of PowerPoint, attached.");
+                    return (MSPP.Application)System.Runtime.InteropServices.Marshal.GetActiveObject("PowerPoint.Application"); ;
+                }
             }
-            catch (Exception)
+            catch
             {
-                Console.WriteLine("No running PowerPoint instance found, starting new one.");
-                instance = new MSPP.Application();
-                instance.Activate();
+                // Nothing to do
             }
+
+            Console.WriteLine("No running PowerPoint instance found, starting new one.");
+            MSPP.Application instance = new MSPP.Application();
+            instance.Activate();
+
             return instance;
         }
 
