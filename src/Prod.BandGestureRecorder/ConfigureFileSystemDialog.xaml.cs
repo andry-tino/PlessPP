@@ -38,9 +38,36 @@ namespace PLessPP.Device.BandGestureRecorder
     /// </summary>
     public sealed partial class ConfigureFileSystemDialog : ContentDialog
     {
-        public ConfigureFileSystemDialog()
+        private string filePath;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConfigureFileSystemDialog"/> class.
+        /// </summary>
+        /// <param name="existingFilePath">The initial path to display.</param>
+        public ConfigureFileSystemDialog(string existingFilePath = null)
         {
             this.InitializeComponent();
+
+            this.FilePath = existingFilePath ?? string.Empty;
+        }
+
+        /// <summary>
+        /// Gets or sets the file path.
+        /// </summary>
+        public string FilePath
+        {
+            get { return this.filePath; }
+
+            private set
+            {
+                if (this.filePath != null && value != null && this.filePath == value)
+                {
+                    return;
+                }
+
+                this.filePath = value;
+                this.FilePathTextBox.Text = this.filePath;
+            }
         }
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -53,8 +80,7 @@ namespace PLessPP.Device.BandGestureRecorder
 
         private async void PickerButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            string filePath = await this.GetStoragePath();
-            this.FilePathTextBox.Text = filePath ?? string.Empty;
+            this.FilePath = await this.GetStoragePath();
         }
 
         private async Task<string> GetStoragePath()

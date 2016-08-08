@@ -111,6 +111,7 @@
     <Compile Include="SimpleTile.xaml.cs">
       <DependentUpon>SimpleTile.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ui\SporadicGyroscopeValuesVisualizer.cs" />
     <EmbeddedResource Include="Properties\Prod.UIControls.rd.xml" />
   </ItemGroup>
   <ItemGroup>

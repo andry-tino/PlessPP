@@ -43,7 +43,6 @@ namespace PLessPP.Device.BandController
     /// </summary>
     public sealed partial class MainPage
     {
-        private App viewModel;
         private IBandClient bandClient;
         private StreamSocket client;
 

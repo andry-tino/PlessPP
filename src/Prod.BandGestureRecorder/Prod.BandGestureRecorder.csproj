@@ -89,9 +89,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Content Include="ApplicationInsights.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -101,6 +98,8 @@
     <Compile Include="ConfigureFileSystemDialog.xaml.cs">
       <DependentUpon>ConfigureFileSystemDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="data\GyroscopeVector.cs" />
+    <Compile Include="data\GyroscopeVectorExtensions.cs" />
     <Compile Include="MainPage.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -142,7 +141,12 @@
       <Project>{7ef1c923-f401-43e5-b701-ea0452bffcd1}</Project>
       <Name>Prod.BandGestureFlowRetrieval</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Prod.UIControls\Prod.UIControls.csproj">
+      <Project>{031d3ec6-4c85-4b8c-ac60-a7ec236b6bb6}</Project>
+      <Name>Prod.UIControls</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

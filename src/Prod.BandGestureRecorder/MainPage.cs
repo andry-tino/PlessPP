@@ -24,10 +24,13 @@ namespace PLessPP.Device.BandGestureRecorder
     using System;
     using System.Collections.Concurrent;
     using System.IO;
+    using System.Threading;
     using System.Threading.Tasks;
-    
+
+    using Windows.UI;
     using Windows.UI.Core;
     using Windows.UI.Popups;
+    using Windows.UI.Xaml;
     using Windows.UI.Xaml.Media;
 
     using Microsoft.Band;
@@ -36,104 +39,47 @@ namespace PLessPP.Device.BandGestureRecorder
 
     using PLessPP.Device.BandGestureFlowRetrieval;
 
+    using PLessPP.Device.UIControls;
+
     /// <summary>
     /// Contains the business logic.
+    /// 
+    /// TODO: Apply proper resource handling on application close.
     /// </summary>
     public sealed partial class MainPage
     {
-        private App viewModel;
-        private IBandClient bandClient;
-
-        private async void GyroscopeReadingChanged(object sender, BandSensorReadingEventArgs<IBandGyroscopeReading> e)
+        private async void OnGyroscopeReadingChanged(object sender, BandSensorReadingEventArgs<IBandGyroscopeReading> e)
         {
-            // Read data
-            var reading = e.SensorReading;
-
-            await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            GyroscopeVector vector = new GyroscopeVector()
             {
-                string a1 = $"{reading.AccelerationX,5:0.00}".Replace(".", string.Empty).Replace("-", string.Empty);
-                string a2 = $"{reading.AccelerationY,5:0.00}".Replace(".", string.Empty).Replace("-", string.Empty);
-                string a3 = $"{reading.AccelerationZ,5:0.00}".Replace(".", string.Empty).Replace("-", string.Empty);
-                string g1 = $"{reading.AngularVelocityX,5:0.00}".Replace(".", string.Empty).Replace("-", string.Empty);
-                string g2 = $"{reading.AngularVelocityY,5:0.00}".Replace(".", string.Empty).Replace("-", string.Empty);
-                string g3 = $"{reading.AngularVelocityZ,5:0.00}".Replace(".", string.Empty).Replace("-", string.Empty);
+                AccelerationX = e.SensorReading.AccelerationX,
+                AccelerationY = e.SensorReading.AccelerationY,
+                AccelerationZ = e.SensorReading.AccelerationZ,
+                AngularVelocityX = e.SensorReading.AngularVelocityX,
+                AngularVelocityY = e.SensorReading.AngularVelocityY,
+                AngularVelocityZ = e.SensorReading.AngularVelocityZ,
+            };
 
-                double threshold = 0.6d;
-
-                if (new Random().NextDouble() > threshold)
-                {
-                    this.AccXTextBox.Text = a1.Substring(0, Math.Min(2, a1.Length)).Trim();
-                    this.AccXMinor3TextBox.Text = this.AccXMinor2TextBox.Text;
-                    this.AccXMinor2TextBox.Text = this.AccXMinor1TextBox.Text;
-                    this.AccXMinor1TextBox.Text = a1.Substring(0, Math.Min(4, a1.Length)).Trim();
-                    this.AccXTextBox.Foreground = reading.AccelerationX < 0
-                        ? new SolidColorBrush(Windows.UI.Color.FromArgb(255, 103, 33, 122))
-                        : new SolidColorBrush(Windows.UI.Color.FromArgb(0, 0, 0, 0));
-                }
-
-                if (new Random().NextDouble() > threshold)
-                {
-                    this.AccYTextBox.Text = a2.Substring(0, Math.Min(2, a2.Length)).Trim();
-                    this.AccYMinor3TextBox.Text = this.AccYMinor2TextBox.Text;
-                    this.AccYMinor2TextBox.Text = this.AccYMinor1TextBox.Text;
-                    this.AccYMinor1TextBox.Text = a1.Substring(0, Math.Min(4, a1.Length)).Trim();
-                    this.AccYTextBox.Foreground = reading.AccelerationY < 0
-                        ? new SolidColorBrush(Windows.UI.Color.FromArgb(255, 103, 33, 122))
-                        : new SolidColorBrush(Windows.UI.Color.FromArgb(0, 0, 0, 0));
-                }
-
-                if (new Random().NextDouble() > threshold)
-                {
-                    this.AccZTextBox.Text = a3.Substring(0, Math.Min(2, a3.Length)).Trim();
-                    this.AccZMinor3TextBox.Text = this.AccZMinor2TextBox.Text;
-                    this.AccZMinor2TextBox.Text = this.AccZMinor1TextBox.Text;
-                    this.AccZMinor1TextBox.Text = a1.Substring(0, Math.Min(4, a1.Length)).Trim();
-                    this.AccZTextBox.Foreground = reading.AccelerationZ < 0
-                        ? new SolidColorBrush(Windows.UI.Color.FromArgb(255, 103, 33, 122))
-                        : new SolidColorBrush(Windows.UI.Color.FromArgb(0, 0, 0, 0));
-                }
-
-                if (new Random().NextDouble() > threshold)
-                {
-                    this.RotXTextBox.Text = g1.Substring(0, Math.Min(2, g1.Length)).Trim();
-                    this.RotXMinor3TextBox.Text = this.RotXMinor2TextBox.Text;
-                    this.RotXMinor2TextBox.Text = this.RotXMinor1TextBox.Text;
-                    this.RotXMinor1TextBox.Text = g1.Substring(0, Math.Min(4, g1.Length)).Trim();
-                    this.RotXTextBox.Foreground = reading.AngularVelocityX < 0
-                        ? new SolidColorBrush(Windows.UI.Color.FromArgb(255, 103, 33, 122))
-                        : new SolidColorBrush(Windows.UI.Color.FromArgb(0, 0, 0, 0));
-                }
-
-                if (new Random().NextDouble() > threshold)
-                {
-                    this.RotYTextBox.Text = g2.Substring(0, Math.Min(2, g2.Length)).Trim();
-                    this.RotYMinor3TextBox.Text = this.RotYMinor2TextBox.Text;
-                    this.RotYMinor2TextBox.Text = this.RotYMinor1TextBox.Text;
-                    this.RotYMinor1TextBox.Text = g1.Substring(0, Math.Min(4, g1.Length)).Trim();
-                    this.RotYTextBox.Foreground = reading.AngularVelocityY < 0
-                        ? new SolidColorBrush(Windows.UI.Color.FromArgb(255, 103, 33, 122))
-                        : new SolidColorBrush(Windows.UI.Color.FromArgb(0, 0, 0, 0));
-                }
-
-                if (new Random().NextDouble() > threshold)
-                {
-                    this.RotZTextBox.Text = g3.Substring(0, Math.Min(2, g3.Length)).Trim();
-                    this.RotZMinor3TextBox.Text = this.RotZMinor2TextBox.Text;
-                    this.RotZMinor2TextBox.Text = this.RotZMinor1TextBox.Text;
-                    this.RotZMinor1TextBox.Text = g1.Substring(0, Math.Min(4, g1.Length)).Trim();
-                    this.RotZTextBox.Foreground = reading.AngularVelocityZ < 0
-                        ? new SolidColorBrush(Windows.UI.Color.FromArgb(255, 103, 33, 122))
-                        : new SolidColorBrush(Windows.UI.Color.FromArgb(0, 0, 0, 0));
-                }
-            });
+            this.vectors.Enqueue(vector);
         }
 
         private async void RunProgram()
         {
             try
             {
-                // Get the list of Microsoft Bands paired to the phone.
-                IBandInfo[] pairedBands = await BandClientManager.Instance.GetBandsAsync();
+                IBandInfo[] pairedBands = null;
+
+                for (int attempts = 3; attempts >= 0; attempts--)
+                {
+                    // Get the list of Microsoft Bands paired to the phone.
+                    pairedBands = await BandClientManager.Instance.GetBandsAsync();
+
+                    if (pairedBands.Length >= 1)
+                    {
+                        break;
+                    }
+                }
+
                 if (pairedBands.Length < 1)
                 {
                     await new MessageDialog("This sample app requires a Microsoft Band paired to your device. Also make sure that you have the latest firmware installed on your Band, as provided by the latest Microsoft Health app.").ShowAsync();
@@ -141,17 +87,82 @@ namespace PLessPP.Device.BandGestureRecorder
                 }
 
                 // Connect to Microsoft Band.
-                bandClient = await BandClientManager.Instance.ConnectAsync(pairedBands[0]);
+                this.bandClient = await BandClientManager.Instance.ConnectAsync(pairedBands[0]);
+
+                // Initialize visualizer (this will subscribe to gyroscope data)
+                SporadicGyroscopeValuesVisualizer visualizer = new SporadicGyroscopeValuesVisualizer(
+                    bandClient.SensorManager.Gyroscope, this.Dispatcher,
+                    this.AccXTextBox, this.AccXMinor1TextBox, this.AccXMinor2TextBox, this.AccXMinor3TextBox,
+                    this.AccYTextBox, this.AccYMinor1TextBox, this.AccYMinor2TextBox, this.AccYMinor3TextBox,
+                    this.AccZTextBox, this.AccZMinor1TextBox, this.AccZMinor2TextBox, this.AccZMinor3TextBox,
+                    this.RotXTextBox, this.RotXMinor1TextBox, this.RotXMinor2TextBox, this.RotXMinor3TextBox,
+                    this.RotYTextBox, this.RotYMinor1TextBox, this.RotYMinor2TextBox, this.RotYMinor3TextBox,
+                    this.RotZTextBox, this.RotZMinor1TextBox, this.RotZMinor2TextBox, this.RotZMinor3TextBox,
+                    Color.FromArgb(255, 103, 33, 122), Color.FromArgb(0, 0, 0, 0));
 
                 // Subscribe to Gyroscope data.
-                bandClient.SensorManager.Gyroscope.ReadingChanged += this.GyroscopeReadingChanged;
+                this.bandClient.SensorManager.Gyroscope.ReadingChanged += this.OnGyroscopeReadingChanged;
 
-                await bandClient.SensorManager.Gyroscope.StartReadingsAsync();
+                // Spawn file writer
+                this.StartFileWriterTask();
+
+                // Starting sensor reading
+                await this.bandClient.SensorManager.Gyroscope.StartReadingsAsync();
             }
             catch (Exception ex)
             {
                 await new MessageDialog($"An error occurred: {ex.ToString()}").ShowAsync();
             }
+        }
+
+        private void StopFileWriterTask()
+        {
+            if (this.fileWriterCancellationTokenSource == null)
+            {
+                return;
+            }
+
+            this.fileWriterCancellationTokenSource.Cancel();
+        }
+
+        private void StartFileWriterTask()
+        {
+            this.fileWriterCancellationTokenSource = new CancellationTokenSource();
+            this.fileWriterTask = new Task(this.WriteFile, this.fileWriterCancellationTokenSource.Token);
+            this.fileWriterTask.Start();
+
+        }
+
+        private async void WriteFile()
+        {
+            for (;;)
+            {
+                await Task.Delay(1000);
+
+                if (this.vectors.Count == 0)
+                {
+                    continue;
+                }
+
+                if (this.FilePath == null || this.FilePath == string.Empty)
+                {
+                    // Stop
+                    //await new MessageDialog($"File path: {this.FilePath} is not valid. Choose a different one!").ShowAsync();
+                    this.FailureTextBlock.Visibility = Visibility.Visible;
+                    return;
+                }
+                
+                File.AppendAllText(this.FilePath, "Hi there");
+            }
+        }
+
+        private void OnFilePathChanged(string filePath)
+        {
+            this.StopFileWriterTask();
+
+            this.FailureTextBlock.Visibility = Visibility.Collapsed;
+
+            this.StartFileWriterTask();
         }
     }
 }

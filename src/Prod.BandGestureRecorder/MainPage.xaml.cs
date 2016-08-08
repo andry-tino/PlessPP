@@ -22,6 +22,12 @@
 namespace PLessPP.Device.BandGestureRecorder
 {
     using System;
+    using System.Collections.Concurrent;
+    using System.IO;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    using Microsoft.Band;
 
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
@@ -33,15 +39,37 @@ namespace PLessPP.Device.BandGestureRecorder
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private readonly ConcurrentQueue<GyroscopeVector> vectors;
+
+        private string filePath;
+
+        private IBandClient bandClient;
+        private CancellationTokenSource fileWriterCancellationTokenSource;
+        private Task fileWriterTask;
+
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="MainPage"/> class.
         /// </summary>
         public MainPage()
         {
             this.InitializeComponent();
 
+            // Initializing data
+            this.vectors = new ConcurrentQueue<GyroscopeVector>();
+
             // Ready to start the business logic
             this.RunProgram();
+        }
+
+        private string FilePath
+        {
+            get { return this.filePath; }
+
+            set
+            {
+                this.filePath = value;
+                this.OnFilePathChanged(this.filePath);
+            }
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
@@ -49,10 +77,12 @@ namespace PLessPP.Device.BandGestureRecorder
             Flyout.ShowAttachedFlyout((FrameworkElement)sender);
         }
 
-        private void FileLocationMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        private async void FileLocationMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
-            //this.Frame.Navigate(typeof(MainPage));
-            new ConfigureFileSystemDialog().ShowAsync();
+            ConfigureFileSystemDialog dialog = new ConfigureFileSystemDialog();
+            await dialog.ShowAsync();
+
+            this.FilePath = dialog.FilePath;
         }
     }
 }
